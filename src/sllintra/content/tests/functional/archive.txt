@@ -1,0 +1,293 @@
+Log in as Manager::
+
+    >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
+
+Add Archive::
+
+    >>> browser.open('/++add++sllintra.content.Archive')
+
+#     >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle1'
+#     >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Description of Ärticle1'
+#     >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKÖ1'
+#     >>> browser.getControl(name="form.widgets.IDiscountBehavior.price").value = '12.40'
+#     >>> browser.getControl(name="form.buttons.save").click()
+
+#     >>> print browser.bycss('.documentFirstHeading')
+#     --- 1 ---
+#     <h1 class="documentFirstHeading">&#196;rticle1</h1>
+
+#     >>> print browser.bycss('.documentDescription')
+#     --- 1 ---
+#     <div class="documentDescription">Description of &#196;rticle1</div>
+
+#     >>> print browser.bycss('.sold-out')
+#     --- 1 ---
+#     <p class="sold-out">
+#     Sold Out
+#     </p>
+
+# Add Stöck1 to Ärticle1::
+
+#     >>> browser.getLink('Stock').click()
+#     >>> browser.getControl(name="form.buttons.AddNewStock").click()
+#     >>> browser.getControl(name="form.widgets.IBasic.title").value = 'Stöck1'
+#     >>> browser.getControl(name="form.widgets.stock").value = '100'
+#     >>> browser.getControl(name="form.widgets.IStockPrice.price").value = '2.00'
+#     >>> browser.getControl(name="form.buttons.save").click()
+
+#     >>> browser.url
+#     'http://nohost/plone/article1/@@stock'
+
+# Go to Ärticle1::
+
+#     >>> browser.open('/article1')
+#     >>> print browser.bycss('.sold-out')
+
+#     >>> print browser.bycss('#money')
+#     --- 1 ---
+#     <section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat-rate">
+#     Including VAT: 24%
+#     </section></section>
+
+#     >>> print browser.bycss('#discount')
+
+#     >>> print browser.bycss('#stock')
+#     --- 1 ---
+#     <section id="stock">
+#     Stock: 100 pcs
+#     </section>
+
+# Log out and go to Ärticle1::
+
+#     >>> browser.getLink('Log out').click()
+#     >>> browser.open('/article1')
+#     >>> print browser.bycss('#money')
+#     --- 1 ---
+#     <section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat-rate">
+#     Including VAT: 24%
+#     </section></section>
+
+#     >>> print browser.bycss('#discount')
+
+# Log in as member1 and go to Ärticle1::
+
+#     >>> browser.login(member1, member1)
+#     >>> browser.open('/article1')
+#     >>> print browser.bycss('#money')
+#     --- 1 ---
+#     <section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat-rate">
+#     Including VAT: 24%
+#     </section></section>
+
+#     >>> print browser.bycss('#discount')
+
+# Log out and apply termed discount::
+
+#     >>> browser.getLink('Log out').click()
+#     >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
+#     >>> browser.open('/article1/edit')
+#     >>> browser.getControl(name="form.widgets.IDiscountBehavior.discount_enabled:list").value = True
+#     >>> browser.getControl(name="form.widgets.IDiscountBehavior.discount_price").value = '10.00'
+#     >>> browser.getControl(name="form.widgets.IDiscountBehavior.discount_end-day").value = str(today.day)
+#     >>> browser.getControl(name="form.widgets.IDiscountBehavior.discount_end-month").value = [str(today.month)]
+#     >>> browser.getControl(name="form.widgets.IDiscountBehavior.discount_end-year").value = str(today.year)
+#     >>> browser.getControl(name="form.buttons.save").click()
+#     >>> print browser.bycss('#money')
+#     --- 1 ---
+#     <section id="money"><section id="price" class="gross">10.00 &#8364;</section><section id="vat-rate">
+#     Including VAT: 24%
+#     </section></section>
+
+#     >>> print browser.bycss('#discount')
+#     --- 1 ---
+#     <section id="discount"><p id="discount-message">
+#     (Discount valid till ...)
+#     </p>
+#     <p id="normal-price">
+#     Normal Price: 12.40 &#8364;
+#     </p>
+#     </section>
+
+# Log out and go to Ärticle1::
+
+#     >>> browser.getLink('Log out').click()
+#     >>> browser.open('/article1')
+#     >>> print browser.bycss('#money')
+#     --- 1 ---
+#     <section id="money"><section id="price" class="gross">10.00 &#8364;</section><section id="vat-rate">
+#     Including VAT: 24%
+#     </section></section>
+
+#     >>> print browser.bycss('#discount')
+#     --- 1 ---
+#     <section id="discount"><p id="discount-message">
+#     (Discount valid till ...)
+#     </p>
+#     <p id="normal-price">
+#     Normal Price: 12.40 &#8364;
+#     </p>
+#     </section>
+
+# Log in as member1 and go to Ärticle1::
+
+#     >>> browser.login(member1, member1)
+#     >>> browser.open('/article1')
+#     >>> print browser.bycss('#money')
+#     --- 1 ---
+#     <section id="money"><section id="price" class="gross">10.00 &#8364;</section><section id="vat-rate">
+#     Including VAT: 24%
+#     </section></section>
+
+#     >>> print browser.bycss('#discount')
+#     --- 1 ---
+#     <section id="discount"><p id="discount-message">
+#     (Discount valid till ...)
+#     </p>
+#     <p id="normal-price">
+#     Normal Price: 12.40 &#8364;
+#     </p>
+#     </section>
+
+# Log out and apply registered member discount::
+
+#     >>> browser.getLink('Log out').click()
+#     >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
+#     >>> browser.open('/article1/edit')
+#     >>> browser.getControl(name="form.widgets.IDiscountBehavior.registered_member_discount_enabled:list").value = True
+#     >>> browser.getControl(name="form.widgets.IDiscountBehavior.registered_member_discount_price").value = '11.00'
+#     >>> browser.getControl(name="form.buttons.save").click()
+#     >>> print browser.bycss('#money')
+#     --- 1 ---
+#     <section id="money"><section id="price" class="gross">10.00 &#8364;</section><section id="vat-rate">
+#     Including VAT: 24%
+#     </section></section>
+
+#     >>> print browser.bycss('#discount')
+#     --- 1 ---
+#     <section id="discount"><p id="discount-message">
+#     (Discount valid till ...)
+#     </p>
+#     <p id="normal-price">
+#     Normal Price: 12.40 &#8364;
+#     </p>
+#     </section>
+
+# Log out and go to Ärticle1::
+
+#     >>> browser.getLink('Log out').click()
+#     >>> browser.open('/article1')
+#     >>> print browser.bycss('#money')
+#     --- 1 ---
+#     <section id="money"><section id="price" class="gross">10.00 &#8364;</section><section id="vat-rate">
+#     Including VAT: 24%
+#     </section></section>
+
+#     >>> print browser.bycss('#discount')
+#     --- 1 ---
+#     <section id="discount"><p id="discount-message">
+#     (Discount valid till ...)
+#     </p>
+#     <p id="normal-price">
+#     Normal Price: 12.40 &#8364;
+#     </p>
+#     </section>
+
+# Log in as member1 and go to Ärticle1::
+
+#     >>> browser.login(member1, member1)
+#     >>> browser.open('/article1')
+#     >>> print browser.bycss('#money')
+#     --- 1 ---
+#     <section id="money"><section id="price" class="gross">10.00 &#8364;</section><section id="vat-rate">
+#     Including VAT: 24%
+#     </section></section>
+
+#     >>> print browser.bycss('#discount')
+#     --- 1 ---
+#     <section id="discount"><p id="discount-message">
+#     (Discount valid till ...)
+#     </p>
+#     <p id="normal-price">
+#     Normal Price: 12.40 &#8364;
+#     </p>
+#     </section>
+
+# Log out and change registered member discount::
+
+#     >>> browser.getLink('Log out').click()
+#     >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
+#     >>> browser.open('/article1/edit')
+#     >>> browser.getControl(name="form.widgets.IDiscountBehavior.registered_member_discount_price").value = '9.00'
+#     >>> browser.getControl(name="form.buttons.save").click()
+#     >>> print browser.bycss('#money')
+#     --- 1 ---
+#     <section id="money"><section id="price" class="gross">10.00 &#8364;</section><section id="vat-rate">
+#     Including VAT: 24%
+#     </section></section>
+
+#     >>> print browser.bycss('#discount')
+#     --- 1 ---
+#     <section id="discount"><p id="discount-message">
+#     (Discount valid till ...)
+#     </p>
+#     <p id="normal-price">
+#     Normal Price: 12.40 &#8364;
+#     </p>
+#     </section>
+
+# Log out and go to Ärticle1::
+
+#     >>> browser.getLink('Log out').click()
+#     >>> browser.open('/article1')
+#     >>> print browser.bycss('#money')
+#     --- 1 ---
+#     <section id="money"><section id="price" class="gross">10.00 &#8364;</section><section id="vat-rate">
+#     Including VAT: 24%
+#     </section></section>
+
+#     >>> print browser.bycss('#discount')
+#     --- 1 ---
+#     <section id="discount"><p id="discount-message">
+#     (Discount valid till ...)
+#     </p>
+#     <p id="normal-price">
+#     Normal Price: 12.40 &#8364;
+#     </p>
+#     </section>
+
+# Log in as member1 and go to Ärticle1::
+
+#     >>> browser.login(member1, member1)
+#     >>> browser.open('/article1')
+#     >>> print browser.bycss('#money')
+#     --- 1 ---
+#     <section id="money"><section id="price" class="gross">10.00 &#8364;</section><section id="vat-rate">
+#     Including VAT: 24%
+#     </section></section>
+
+#     >>> print browser.bycss('#discount')
+#     --- 1 ---
+#     <section id="discount"><p id="discount-message">
+#     (Discount valid till ...)
+#     </p>
+#     <p id="normal-price">
+#     Normal Price: 12.40 &#8364;
+#     </p>
+#     </section>
+
+# Log out and log in as member2 who has registration number, and go to Ärticle1::
+
+#     >>> browser.login(member2, member2)
+#     >>> browser.open('/article1')
+#     >>> print browser.bycss('#money')
+#     --- 1 ---
+#     <section id="money"><section id="price" class="gross">9.00 &#8364;</section><section id="vat-rate">
+#     Including VAT: 24%
+#     </section></section>
+
+#     >>> print browser.bycss('#discount')
+#     --- 1 ---
+#     <section id="discount"><p id="normal-price">
+#     Normal Price: 12.40 &#8364;
+#     </p>
+#     </section>

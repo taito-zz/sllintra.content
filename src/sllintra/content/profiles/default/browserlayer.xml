@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<layers>
+  <layer
+    name="sllintra.content"
+    interface="sllintra.content.browser.interfaces.ISllintraContentLayer"
+    />
+</layers>

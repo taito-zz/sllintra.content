@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<object
+  i18n:domain="sllintra.content"
+  meta_type="Dexterity FTI"
+  name="sllintra.content.Archive"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+
+  <!-- Basic properties -->
+  <property name="title" i18n:translate="">Archive</property>
+  <property name="description" i18n:translate=""/>
+  <property name="content_icon">file.png</property>
+  <property name="allow_discussion">False</property>
+
+  <!-- Hierarchy control -->
+  <property name="global_allow">True</property>
+  <property name="filter_content_types">False</property>
+
+  <!-- Schema, class and security -->
+  <property name="schema">sllintra.content.schema.ArchiveSchema</property>
+  <property name="klass">sllintra.content.content.Archive</property>
+  <property name="add_permission">sllintra.content.AddArchive</property>
+
+  <!-- enabled behaviors -->
+  <property name="behaviors">
+    <!-- <element value="plone.app.content.interfaces.INameFromTitle" /> -->
+  </property>
+
+  <!-- Views and aliases -->
+  <property name="default_view">view</property>
+  <property name="default_view_fallback">False</property>
+  <property name="view_methods">
+    <element value="view"/>
+  </property>
+
+  <alias from="(Default)" to="(selected layout)"/>
+  <alias from="edit" to="@@edit"/>
+  <alias from="sharing" to="@@sharing"/>
+  <alias from="view" to="@@view"/>
+
+  <action title="View" action_id="view" category="object" condition_expr=""
+    url_expr="string:${folder_url}/" visible="True">
+  <permission value="View"/>
+  </action>
+
+  <action title="Edit" action_id="edit" category="object" condition_expr=""
+    url_expr="string:${object_url}/edit" visible="True">
+    <permission value="sllintra.content: Edit Archive"/>
+  </action>
+
+</object>

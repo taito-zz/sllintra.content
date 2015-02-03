@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<object name="portal_catalog" meta_type="Plone Catalog Tool">
+
+  <!-- sllintra.content.Archive -->
+  <!-- <column value="aaa"/> -->
+
+  <!-- <index name="aaa" meta_type="FieldIndex">
+    <indexed_attr value="aaa"/>
+  </index> -->
+
+</object>
