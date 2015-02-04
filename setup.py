@@ -25,6 +25,8 @@ setup(
     install_requires=[
         'collective.base',
         'plone.app.dexterity',
+        'plone.app.textfield',
+        'plone.namedfile [blobs]',
         'setuptools'],
     extras_require={'test': ['hexagonit.testing']},
     entry_points="""

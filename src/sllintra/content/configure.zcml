@@ -8,6 +8,7 @@
   <i18n:registerTranslations directory="locales" />
   <include package="collective.base" />
   <include package="plone.app.dexterity" />
+  <include package="plone.behavior" file="meta.zcml" />
 
   <permission
     id="sllintra.content.AddArchive"
@@ -26,5 +27,14 @@
     provides="Products.GenericSetup.interfaces.EXTENSION"
     title="sllintra.content"
     />
+
+  <plone:behavior
+    description="Automatically generate short URL name for content based on title or its primary field file name"
+    for="plone.dexterity.interfaces.IDexterityContent"
+    provides=".interfaces.INameFromTitleOrFileName"
+    title="Name from title or file name"
+  />
+
+  <adapter factory=".behavior.NameFromTitleOrFileName" />
 
 </configure>

@@ -6,3 +6,5 @@ from zope.interface import implements
 class Archive(Container):
     """Content type: sllintra.content.Archive"""
     implements(IArchive)
+
+    archive_file = None

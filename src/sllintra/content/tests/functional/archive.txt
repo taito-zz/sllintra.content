@@ -2,292 +2,116 @@ Log in as Manager::
 
     >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
 
-Add Archive::
+Add Archive with archive_file only::
 
     >>> browser.open('/++add++sllintra.content.Archive')
 
-#     >>> browser.getControl(name="form.widgets.IDublinCore.title").value = 'Ärticle1'
-#     >>> browser.getControl(name="form.widgets.IDublinCore.description").value = 'Description of Ärticle1'
-#     >>> browser.getControl(name="form.widgets.ISKU.sku").value = 'SKÖ1'
-#     >>> browser.getControl(name="form.widgets.IDiscountBehavior.price").value = '12.40'
-#     >>> browser.getControl(name="form.buttons.save").click()
+    >>> import StringIO
+    >>> dummy_file1 = StringIO.StringIO('ÄÖÅ text1')
+    >>> browser.getControl(name='form.widgets.archive_file').mech_control.add_file(dummy_file1, content_type='text/plain', filename='äöå1.txt')
+    >>> browser.getControl(name="form.buttons.save").click()
 
-#     >>> print browser.bycss('.documentFirstHeading')
-#     --- 1 ---
-#     <h1 class="documentFirstHeading">&#196;rticle1</h1>
+    >>> browser.url
+    'http://nohost/plone/aoa1.txt/view'
 
-#     >>> print browser.bycss('.documentDescription')
-#     --- 1 ---
-#     <div class="documentDescription">Description of &#196;rticle1</div>
+    >>> print browser.bycss('.documentFirstHeading')
+    --- 1 ---
+    <h1 class="documentFirstHeading">&#228;&#246;&#229;1.txt</h1>
 
-#     >>> print browser.bycss('.sold-out')
-#     --- 1 ---
-#     <p class="sold-out">
-#     Sold Out
-#     </p>
+    >>> print browser.bycss('#form-widgets-archive_file')
+    --- 1 ---
+    <span id="form-widgets-archive_file" class="named-file-widget namedblobfile-field">
+    <span>
+    <img src="http://nohost/plone/txt.png" alt="Plain Text" title="&#228;&#246;&#229;1.txt"><a href="http://nohost/plone/aoa1.txt/@@view/++widget++form.widgets.archive_file/@@download/%C3%A4%C3%B6%C3%A51.txt">&#228;&#246;&#229;1.txt</a>
+    <span class="discreet"> &#8212;
+    Plain Text,
+    1 KB
+    </span>
+    </span>
+    </span>
 
-# Add Stöck1 to Ärticle1::
+    >>> browser.open('/aoa1.txt/@@view/++widget++form.widgets.archive_file/@@download/%C3%A4%C3%B6%C3%A51.txt')
+    >>> print browser.contents
+    ÄÖÅ text1
 
-#     >>> browser.getLink('Stock').click()
-#     >>> browser.getControl(name="form.buttons.AddNewStock").click()
-#     >>> browser.getControl(name="form.widgets.IBasic.title").value = 'Stöck1'
-#     >>> browser.getControl(name="form.widgets.stock").value = '100'
-#     >>> browser.getControl(name="form.widgets.IStockPrice.price").value = '2.00'
-#     >>> browser.getControl(name="form.buttons.save").click()
+    >>> browser.open('/aoa1.txt/edit')
 
-#     >>> browser.url
-#     'http://nohost/plone/article1/@@stock'
+    >>> print browser.bycss('#form-widgets-title')
+    --- 1 ---
+    <input id="form-widgets-title" name="form.widgets.title" class="text-widget textline-field" value="&#228;&#246;&#229;1.txt" type="text">
 
-# Go to Ärticle1::
+Delete title and archive_file::
 
-#     >>> browser.open('/article1')
-#     >>> print browser.bycss('.sold-out')
+    >>> browser.getControl(name='form.widgets.title').value = ''
+    >>> browser.getControl(name='form.widgets.archive_file.action').value = ['remove',]
+    >>> browser.getControl(name="form.buttons.save").click()
 
-#     >>> print browser.bycss('#money')
-#     --- 1 ---
-#     <section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat-rate">
-#     Including VAT: 24%
-#     </section></section>
+    >>> browser.url
+    'http://nohost/plone/aoa1.txt/@@edit'
 
-#     >>> print browser.bycss('#discount')
+    >>> print browser.bycss('.error')
+    --- 1 ---
+    <dl class="portalMessage error"><dt>
+    Error
+    </dt>
+    <dd>There were some errors.</dd>
+    </dl>
+    --- 2 ---
+    <div class="field error">
+    <div class="error">Add archive file or title.</div>
+    </div>
+    --- 3 ---
+    <div class="error">Add archive file or title.</div>
 
-#     >>> print browser.bycss('#stock')
-#     --- 1 ---
-#     <section id="stock">
-#     Stock: 100 pcs
-#     </section>
+Complete only title::
 
-# Log out and go to Ärticle1::
+    >>> browser.open('aoa1.txt/edit')
+    >>> browser.getControl(name='form.widgets.title').value = 'Ötsikö1'
+    >>> browser.getControl(name="form.buttons.save").click()
 
-#     >>> browser.getLink('Log out').click()
-#     >>> browser.open('/article1')
-#     >>> print browser.bycss('#money')
-#     --- 1 ---
-#     <section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat-rate">
-#     Including VAT: 24%
-#     </section></section>
+    >>> print browser.bycss('.documentFirstHeading')
+    --- 1 ---
+    <h1 class="documentFirstHeading">&#214;tsik&#246;1</h1>
 
-#     >>> print browser.bycss('#discount')
+Add new Archive without title and archive_file::
 
-# Log in as member1 and go to Ärticle1::
+    >>> browser.open('/++add++sllintra.content.Archive')
+    >>> browser.getControl(name="form.buttons.save").click()
 
-#     >>> browser.login(member1, member1)
-#     >>> browser.open('/article1')
-#     >>> print browser.bycss('#money')
-#     --- 1 ---
-#     <section id="money"><section id="price" class="gross">12.40 &#8364;</section><section id="vat-rate">
-#     Including VAT: 24%
-#     </section></section>
+    >>> browser.url
+    'http://nohost/plone/++add++sllintra.content.Archive'
 
-#     >>> print browser.bycss('#discount')
+    >>> print browser.bycss('.error')
+    --- 1 ---
+    <dl class="portalMessage error"><dt>
+    Error
+    </dt>
+    <dd>There were some errors.</dd>
+    </dl>
+    --- 2 ---
+    <div class="field error">
+    <div class="error">Add archive file or title.</div>
+    </div>
+    --- 3 ---
+    <div class="error">Add archive file or title.</div>
 
-# Log out and apply termed discount::
+Complete only title::
 
-#     >>> browser.getLink('Log out').click()
-#     >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
-#     >>> browser.open('/article1/edit')
-#     >>> browser.getControl(name="form.widgets.IDiscountBehavior.discount_enabled:list").value = True
-#     >>> browser.getControl(name="form.widgets.IDiscountBehavior.discount_price").value = '10.00'
-#     >>> browser.getControl(name="form.widgets.IDiscountBehavior.discount_end-day").value = str(today.day)
-#     >>> browser.getControl(name="form.widgets.IDiscountBehavior.discount_end-month").value = [str(today.month)]
-#     >>> browser.getControl(name="form.widgets.IDiscountBehavior.discount_end-year").value = str(today.year)
-#     >>> browser.getControl(name="form.buttons.save").click()
-#     >>> print browser.bycss('#money')
-#     --- 1 ---
-#     <section id="money"><section id="price" class="gross">10.00 &#8364;</section><section id="vat-rate">
-#     Including VAT: 24%
-#     </section></section>
+    >>> browser.getControl(name='form.widgets.title').value = 'Ötsikö2'
+    >>> browser.getControl(name="form.buttons.save").click()
 
-#     >>> print browser.bycss('#discount')
-#     --- 1 ---
-#     <section id="discount"><p id="discount-message">
-#     (Discount valid till ...)
-#     </p>
-#     <p id="normal-price">
-#     Normal Price: 12.40 &#8364;
-#     </p>
-#     </section>
+    >>> browser.url
+    'http://nohost/plone/otsiko2/view'
 
-# Log out and go to Ärticle1::
+    >>> print browser.bycss('.documentFirstHeading')
+    --- 1 ---
+    <h1 class="documentFirstHeading">&#214;tsik&#246;2</h1>
 
-#     >>> browser.getLink('Log out').click()
-#     >>> browser.open('/article1')
-#     >>> print browser.bycss('#money')
-#     --- 1 ---
-#     <section id="money"><section id="price" class="gross">10.00 &#8364;</section><section id="vat-rate">
-#     Including VAT: 24%
-#     </section></section>
+    >>> browser.open('/++add++sllintra.content.Archive')
+    >>> browser.getControl(name='form.widgets.title').value = 'Ötsikö3'
+    >>> browser.getControl(name="form.buttons.save").click()
+    >>> browser.url
+    'http://nohost/plone/otsiko3/view'
 
-#     >>> print browser.bycss('#discount')
-#     --- 1 ---
-#     <section id="discount"><p id="discount-message">
-#     (Discount valid till ...)
-#     </p>
-#     <p id="normal-price">
-#     Normal Price: 12.40 &#8364;
-#     </p>
-#     </section>
 
-# Log in as member1 and go to Ärticle1::
-
-#     >>> browser.login(member1, member1)
-#     >>> browser.open('/article1')
-#     >>> print browser.bycss('#money')
-#     --- 1 ---
-#     <section id="money"><section id="price" class="gross">10.00 &#8364;</section><section id="vat-rate">
-#     Including VAT: 24%
-#     </section></section>
-
-#     >>> print browser.bycss('#discount')
-#     --- 1 ---
-#     <section id="discount"><p id="discount-message">
-#     (Discount valid till ...)
-#     </p>
-#     <p id="normal-price">
-#     Normal Price: 12.40 &#8364;
-#     </p>
-#     </section>
-
-# Log out and apply registered member discount::
-
-#     >>> browser.getLink('Log out').click()
-#     >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
-#     >>> browser.open('/article1/edit')
-#     >>> browser.getControl(name="form.widgets.IDiscountBehavior.registered_member_discount_enabled:list").value = True
-#     >>> browser.getControl(name="form.widgets.IDiscountBehavior.registered_member_discount_price").value = '11.00'
-#     >>> browser.getControl(name="form.buttons.save").click()
-#     >>> print browser.bycss('#money')
-#     --- 1 ---
-#     <section id="money"><section id="price" class="gross">10.00 &#8364;</section><section id="vat-rate">
-#     Including VAT: 24%
-#     </section></section>
-
-#     >>> print browser.bycss('#discount')
-#     --- 1 ---
-#     <section id="discount"><p id="discount-message">
-#     (Discount valid till ...)
-#     </p>
-#     <p id="normal-price">
-#     Normal Price: 12.40 &#8364;
-#     </p>
-#     </section>
-
-# Log out and go to Ärticle1::
-
-#     >>> browser.getLink('Log out').click()
-#     >>> browser.open('/article1')
-#     >>> print browser.bycss('#money')
-#     --- 1 ---
-#     <section id="money"><section id="price" class="gross">10.00 &#8364;</section><section id="vat-rate">
-#     Including VAT: 24%
-#     </section></section>
-
-#     >>> print browser.bycss('#discount')
-#     --- 1 ---
-#     <section id="discount"><p id="discount-message">
-#     (Discount valid till ...)
-#     </p>
-#     <p id="normal-price">
-#     Normal Price: 12.40 &#8364;
-#     </p>
-#     </section>
-
-# Log in as member1 and go to Ärticle1::
-
-#     >>> browser.login(member1, member1)
-#     >>> browser.open('/article1')
-#     >>> print browser.bycss('#money')
-#     --- 1 ---
-#     <section id="money"><section id="price" class="gross">10.00 &#8364;</section><section id="vat-rate">
-#     Including VAT: 24%
-#     </section></section>
-
-#     >>> print browser.bycss('#discount')
-#     --- 1 ---
-#     <section id="discount"><p id="discount-message">
-#     (Discount valid till ...)
-#     </p>
-#     <p id="normal-price">
-#     Normal Price: 12.40 &#8364;
-#     </p>
-#     </section>
-
-# Log out and change registered member discount::
-
-#     >>> browser.getLink('Log out').click()
-#     >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
-#     >>> browser.open('/article1/edit')
-#     >>> browser.getControl(name="form.widgets.IDiscountBehavior.registered_member_discount_price").value = '9.00'
-#     >>> browser.getControl(name="form.buttons.save").click()
-#     >>> print browser.bycss('#money')
-#     --- 1 ---
-#     <section id="money"><section id="price" class="gross">10.00 &#8364;</section><section id="vat-rate">
-#     Including VAT: 24%
-#     </section></section>
-
-#     >>> print browser.bycss('#discount')
-#     --- 1 ---
-#     <section id="discount"><p id="discount-message">
-#     (Discount valid till ...)
-#     </p>
-#     <p id="normal-price">
-#     Normal Price: 12.40 &#8364;
-#     </p>
-#     </section>
-
-# Log out and go to Ärticle1::
-
-#     >>> browser.getLink('Log out').click()
-#     >>> browser.open('/article1')
-#     >>> print browser.bycss('#money')
-#     --- 1 ---
-#     <section id="money"><section id="price" class="gross">10.00 &#8364;</section><section id="vat-rate">
-#     Including VAT: 24%
-#     </section></section>
-
-#     >>> print browser.bycss('#discount')
-#     --- 1 ---
-#     <section id="discount"><p id="discount-message">
-#     (Discount valid till ...)
-#     </p>
-#     <p id="normal-price">
-#     Normal Price: 12.40 &#8364;
-#     </p>
-#     </section>
-
-# Log in as member1 and go to Ärticle1::
-
-#     >>> browser.login(member1, member1)
-#     >>> browser.open('/article1')
-#     >>> print browser.bycss('#money')
-#     --- 1 ---
-#     <section id="money"><section id="price" class="gross">10.00 &#8364;</section><section id="vat-rate">
-#     Including VAT: 24%
-#     </section></section>
-
-#     >>> print browser.bycss('#discount')
-#     --- 1 ---
-#     <section id="discount"><p id="discount-message">
-#     (Discount valid till ...)
-#     </p>
-#     <p id="normal-price">
-#     Normal Price: 12.40 &#8364;
-#     </p>
-#     </section>
-
-# Log out and log in as member2 who has registration number, and go to Ärticle1::
-
-#     >>> browser.login(member2, member2)
-#     >>> browser.open('/article1')
-#     >>> print browser.bycss('#money')
-#     --- 1 ---
-#     <section id="money"><section id="price" class="gross">9.00 &#8364;</section><section id="vat-rate">
-#     Including VAT: 24%
-#     </section></section>
-
-#     >>> print browser.bycss('#discount')
-#     --- 1 ---
-#     <section id="discount"><p id="normal-price">
-#     Normal Price: 12.40 &#8364;
-#     </p>
-#     </section>
+    # >>> browser.openBrowser()

@@ -72,7 +72,8 @@ class TestCase(IntegrationTestCase):
         self.assertEqual(ctype.schema, 'sllintra.content.schema.ArchiveSchema')
         self.assertEqual(ctype.klass, 'sllintra.content.content.Archive')
         self.assertEqual(ctype.add_permission, 'sllintra.content.AddArchive')
-        self.assertEqual(ctype.behaviors, ())
+        self.assertEqual(ctype.behaviors, (
+            'sllintra.content.interfaces.INameFromTitleOrFileName',))
         self.assertEqual(ctype.default_view, 'view')
         self.assertFalse(ctype.default_view_fallback)
         self.assertEqual(ctype.view_methods, ('view',))

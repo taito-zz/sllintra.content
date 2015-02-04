@@ -22,7 +22,10 @@
 
   <!-- enabled behaviors -->
   <property name="behaviors">
+    <!-- <element value="plone.app.dexterity.behaviors.metadata.IDublinCore" /> -->
     <!-- <element value="plone.app.content.interfaces.INameFromTitle" /> -->
+    <!-- <element value="plone.app.dexterity.behaviors.filename.INameFromFileName" /> -->
+    <element value="sllintra.content.interfaces.INameFromTitleOrFileName" />
   </property>
 
   <!-- Views and aliases -->
