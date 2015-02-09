@@ -29,6 +29,14 @@
     />
 
   <plone:behavior
+    title="Basic metadata without required title"
+    description="Adds non-required title and description fields"
+    provides=".interfaces.IBasic"
+    factory="plone.app.dexterity.behaviors.metadata.Basic"
+    for="plone.dexterity.interfaces.IDexterityContent"
+    />
+
+  <plone:behavior
     description="Automatically generate short URL name for content based on title or its primary field file name"
     for="plone.dexterity.interfaces.IDexterityContent"
     provides=".interfaces.INameFromTitleOrFileName"
@@ -36,5 +44,20 @@
   />
 
   <adapter factory=".behavior.NameFromTitleOrFileName" />
+
+  <adapter
+    for="Products.CMFCore.interfaces.IFolderish
+         sllintra.content.browser.interfaces.ISllintraContentLayer
+         plone.dexterity.interfaces.IDexterityFTI"
+    provides="zope.publisher.interfaces.browser.IBrowserPage"
+    factory=".form.AddArchiveView"
+  />
+
+  <class class=".form.AddArchiveView">
+    <require
+      permission="cmf.AddPortalContent"
+      interface="zope.publisher.interfaces.browser.IBrowserPage"
+    />
+  </class>
 
 </configure>

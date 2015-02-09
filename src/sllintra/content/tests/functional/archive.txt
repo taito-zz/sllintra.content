@@ -47,21 +47,7 @@ Delete title and archive_file::
     >>> browser.getControl(name="form.buttons.save").click()
 
     >>> browser.url
-    'http://nohost/plone/aoa1.txt/@@edit'
-
-    >>> print browser.bycss('.error')
-    --- 1 ---
-    <dl class="portalMessage error"><dt>
-    Error
-    </dt>
-    <dd>There were some errors.</dd>
-    </dl>
-    --- 2 ---
-    <div class="field error">
-    <div class="error">Add archive file or title.</div>
-    </div>
-    --- 3 ---
-    <div class="error">Add archive file or title.</div>
+    'http://nohost/plone/aoa1.txt'
 
 Complete only title::
 
@@ -79,24 +65,19 @@ Add new Archive without title and archive_file::
     >>> browser.getControl(name="form.buttons.save").click()
 
     >>> browser.url
-    'http://nohost/plone/++add++sllintra.content.Archive'
+    'http://nohost/plone'
 
-    >>> print browser.bycss('.error')
+    >>> print browser.bycss('.info')
     --- 1 ---
-    <dl class="portalMessage error"><dt>
-    Error
-    </dt>
-    <dd>There were some errors.</dd>
-    </dl>
+    ...
     --- 2 ---
-    <div class="field error">
-    <div class="error">Add archive file or title.</div>
-    </div>
-    --- 3 ---
-    <div class="error">Add archive file or title.</div>
+    <dl class="portalMessage info"><dt>Info</dt>
+    <dd>You need to input title or add archive file to create Archive content type.</dd>
+    </dl>
 
 Complete only title::
 
+    >>> browser.open('/++add++sllintra.content.Archive')
     >>> browser.getControl(name='form.widgets.title').value = 'Ötsikö2'
     >>> browser.getControl(name="form.buttons.save").click()
 
@@ -112,6 +93,5 @@ Complete only title::
     >>> browser.getControl(name="form.buttons.save").click()
     >>> browser.url
     'http://nohost/plone/otsiko3/view'
-
 
     # >>> browser.openBrowser()

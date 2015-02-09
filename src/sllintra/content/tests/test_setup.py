@@ -65,7 +65,7 @@ class TestCase(IntegrationTestCase):
         self.assertEqual(ctype.meta_type, 'Dexterity FTI')
         self.assertEqual(ctype.title, 'Archive')
         self.assertEqual(ctype.description, '')
-        self.assertEqual(ctype.getIcon(), 'file.png')
+        self.assertEqual(ctype.getIcon(), 'file_icon.png')
         self.assertFalse(ctype.allow_discussion)
         self.assertTrue(ctype.global_allow)
         self.assertFalse(ctype.filter_content_types)
