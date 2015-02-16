@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-01-13 23:43+0000\n"
+"POT-Creation-Date: 2015-02-16 13:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -13,4 +13,25 @@ msgstr ""
 "Language-Name: Finnish\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: sllintra.content\n"
+
+#: ./browser/fields.py:48
+msgid "Field type"
+msgstr "Kenttätyyppi"
+
+#: ./browser/fields.py:42
+msgid "Radio button field"
+msgstr "Radionappikenttä"
+
+#: ./browser/fields.py:42
+msgid "Select field"
+msgstr "Valikkokenttä"
+
+#: ./browser/fields.py:49
+msgid "Select field type"
+msgstr "Valitse kenttätyyppi"
+
+#. Default: "You need to input title or add file to create this content type."
+#: ./form.py:83
+msgid "input_title_or_add_file"
+msgstr "Sinun pitäisi syöttää otsikko tai lisätä tiedosto, että pystyisisi luoda tämä sisältö."
 

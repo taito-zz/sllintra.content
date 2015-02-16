@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name='sllintra.content',
-    version='0.0',
+    version='0.0.0',
     description="Provides content types for SLL intra site.",
     long_description=open("README.rst").read(),
     classifiers=[
@@ -25,8 +25,9 @@ setup(
     install_requires=[
         'collective.base',
         'plone.app.dexterity',
-        'plone.app.textfield',
-        'plone.namedfile [blobs]',
+        # 'plone.app.textfield',
+        # 'plone.directives.form',
+        # 'plone.namedfile [blobs]',
         'setuptools'],
     extras_require={'test': ['hexagonit.testing']},
     entry_points="""

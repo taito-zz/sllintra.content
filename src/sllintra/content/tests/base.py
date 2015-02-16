@@ -23,6 +23,9 @@ class SllintraContentLayer(PloneSandboxLayer):
         # Load ZCML
         import sllintra.content
         self.loadZCML(package=sllintra.content)
+        self.loadZCML(package=sllintra.content, name="overrides.zcml")
+        import sllintra.content.tests.dexterity
+        self.loadZCML(package=sllintra.content.tests.dexterity)
 
     def setUpPloneSite(self, portal):
         """Set up Plone."""
@@ -34,6 +37,7 @@ class SllintraContentLayer(PloneSandboxLayer):
 
         # Install into Plone site using portal_setup
         self.applyProfile(portal, 'sllintra.content:default')
+        self.applyProfile(portal, 'sllintra.content.tests.dexterity:default')
 
     def tearDownZope(self, app):
         """Tear down Zope."""

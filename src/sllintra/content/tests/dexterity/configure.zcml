@@ -1,0 +1,15 @@
+<configure
+  i18n_domain="sllintra.content"
+  xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+  xmlns:i18n="http://namespaces.zope.org/i18n"
+  xmlns="http://namespaces.zope.org/zope">
+
+  <genericsetup:registerProfile
+    name="default"
+    title="sllintra.content.dexterity"
+    directory="profiles/default"
+    description=""
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+</configure>

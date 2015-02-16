@@ -1,5 +1,6 @@
 from plone.app.dexterity.behaviors.metadata import IBasic
 from plone.autoform.interfaces import IFormFieldProvider
+from plone.dexterity.interfaces import IDexterityContainer
 from sllintra.content.schema import ArchiveSchema
 from zope.interface import Interface
 from zope.interface import alsoProvides
@@ -7,7 +8,7 @@ from zope.interface import alsoProvides
 
 # Content type
 
-class IArchive(ArchiveSchema):
+class IArchive(ArchiveSchema, IDexterityContainer):
     """Interface for content type: sllintra.content.Archive"""
 
 
@@ -18,7 +19,7 @@ class INameFromTitleOrFileName(Interface):
 
 
 class IBasic(IBasic):
-    """Behavior interface to provide non-required title and description field"""
+    """Override plone.app.dexterity.behaviors.metadata.IBasic to make title unrequisite"""
 
 
 IBasic.get('title').required = False

@@ -1,0 +1,17 @@
+<configure
+  i18n_domain="sllintra.content"
+  xmlns:browser="http://namespaces.zope.org/browser"
+  xmlns="http://namespaces.zope.org/zope">
+
+  <browser:page
+    class="sllintra.content.browser.fields.TypeFieldsPage"
+    for="plone.app.dexterity.interfaces.ITypeSchemaContext"
+    layer=".interfaces.ISllintraContentLayer"
+    name="fields"
+    permission="plone.schemaeditor.ManageSchemata"
+    />
+
+  <adapter factory=".fields.getFieldType" />
+  <adapter factory=".fields.FieldTypeAdapter" />
+
+</configure>
