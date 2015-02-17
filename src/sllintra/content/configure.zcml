@@ -2,9 +2,12 @@
   i18n_domain="sllintra.content"
   xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
   xmlns:browser="http://namespaces.zope.org/browser"
+  xmlns:five="http://namespaces.zope.org/five"
   xmlns:i18n="http://namespaces.zope.org/i18n"
   xmlns:plone="http://namespaces.plone.org/plone"
   xmlns="http://namespaces.zope.org/zope">
+
+  <five:registerPackage package="."/>
 
   <i18n:registerTranslations directory="locales" />
   <include package="collective.base" />
@@ -43,7 +46,7 @@
     for="plone.dexterity.interfaces.IDexterityContent"
     provides=".interfaces.INameFromTitleOrFileName"
     title="Name from title or file name"
-  />
+    />
 
   <adapter factory=".behavior.NameFromTitleOrFileName" />
 
@@ -54,13 +57,13 @@
     provides="zope.publisher.interfaces.browser.IBrowserPage"
     factory=".form.AddArchiveView"
     name="archive"
-  />
+    />
 
   <class class=".form.AddArchiveView">
     <require
       permission="cmf.AddPortalContent"
       interface="zope.publisher.interfaces.browser.IBrowserPage"
-    />
+      />
   </class>
 
   <browser:page

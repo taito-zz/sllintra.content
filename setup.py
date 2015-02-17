@@ -6,7 +6,7 @@ setup(
     name='sllintra.content',
     version='0.0.1',
     description="Provides content types for SLL intra site.",
-    long_description=open("README.rst").read(),
+    long_description=open("README.txt").read(),
     classifiers=[
         "Framework :: Plone",
         "Framework :: Plone :: 4.3",
