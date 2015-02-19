@@ -25,7 +25,7 @@ def _updata_widget(instance):
     fields = anno.get(name)
     if fields:
         for name in fields:
-            if fields[name] == u'radio':
+            if fields[name] == u'radio' and instance.fields.get(name) is not None:
                 instance.fields[name].widgetFactory = CheckBoxFieldWidget
 
 
