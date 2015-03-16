@@ -47,7 +47,8 @@ class VocabulariesVocabulary(BaseVocabulary):
             for field_name in schema.names():
                 field = schema.get(field_name)
                 if isinstance(field, Set) or isinstance(field, List) or isinstance(field, Choice):
-                    name = '{} - {}'.format(fti.__name__, field.__name__)
-                    sm.registerUtility(component=SCVocabulary(name), provided=IVocabularyFactory, name=name)
+                    if context.__name__ != field.__name__:
+                        name = '{} - {}'.format(fti.__name__, field.__name__)
+                        sm.registerUtility(component=SCVocabulary(name), provided=IVocabularyFactory, name=name)
 
         return super(VocabulariesVocabulary, self).__call__(context)

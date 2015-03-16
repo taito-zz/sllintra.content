@@ -64,6 +64,11 @@ Add multiple choice field::
 
     >>> browser.open('/dexterity-types/archive/multiple_choice_1')
 
+archive - multiple_choice_1 should not be in vocabulary selection::
+
+    >>> 'archive - multiple_choice_1' not in browser.bycss('#form-widgets-vocabularyName')
+    True
+
     >>> print browser.bycss('#form-widgets-IFieldType-field_type')
     --- 1 ---
     <select id="form-widgets-IFieldType-field_type" name="form.widgets.IFieldType.field_type:list" class="select-widget required choice-field" size="1"><option id="form-widgets-IFieldType-field_type-0" value="radio">Radio button field</option><option id="form-widgets-IFieldType-field_type-1" value="select" selected>Select field</option></select>
@@ -327,3 +332,4 @@ Check Ötsikö2::
     >>> print browser.bycss('#form-widgets-multiple_choice_2')
     --- 1 ---
     <select id="form-widgets-multiple_choice_2" name="form.widgets.multiple_choice_2:list" class="select-widget set-field" multiple size="5"><option id="form-widgets-multiple_choice_2-0" value="None">None</option></select>
+
