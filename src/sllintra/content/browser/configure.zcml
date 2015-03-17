@@ -11,6 +11,14 @@
     permission="plone.schemaeditor.ManageSchemata"
     />
 
+  <browser:page
+    class=".edit.EditView"
+    for="plone.schemaeditor.interfaces.IFieldContext"
+    layer=".interfaces.ISllintraContentLayer"
+    name="edit"
+    permission="plone.schemaeditor.ManageSchemata"
+    />
+
   <adapter factory=".fields.getFieldType" />
   <adapter factory=".fields.FieldTypeAdapter" />
 

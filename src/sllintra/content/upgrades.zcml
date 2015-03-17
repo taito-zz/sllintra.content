@@ -1,0 +1,16 @@
+<configure
+  i18n_domain="sllintra.content"
+  xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+  xmlns="http://namespaces.zope.org/zope">
+
+  <genericsetup:upgradeStep
+    description=""
+    destination="1"
+    handler="sllintra.content.upgrades.unregister_vocabularies"
+    profile="sllintra.content:default"
+    sortkey="1"
+    source="0"
+    title="Unregister vocabularies"
+    />
+
+</configure>

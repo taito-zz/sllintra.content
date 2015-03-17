@@ -1,12 +1,10 @@
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.schemaeditor.vocabularies import VocabulariesVocabulary as BaseVocabulary
-from zope.component import getAllUtilitiesRegisteredFor
-from zope.component import getSiteManager
+from urlparse import urlparse
+from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.interface import implements
 from zope.schema import Choice
-from zope.schema import List
-from zope.schema import Set
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
@@ -40,15 +38,17 @@ class VocabulariesVocabulary(BaseVocabulary):
 
     def __call__(self, context):
 
-        sm = getSiteManager(getSite())
-        ftis = getAllUtilitiesRegisteredFor(IDexterityFTI)
-        for fti in ftis:
-            schema = fti.lookupSchema()
-            for field_name in schema.names():
-                field = schema.get(field_name)
-                if isinstance(field, Set) or isinstance(field, List) or isinstance(field, Choice):
-                    if context.__name__ != field.__name__:
-                        name = '{} - {}'.format(fti.__name__, field.__name__)
-                        sm.registerUtility(component=SCVocabulary(name), provided=IVocabularyFactory, name=name)
+        vocabulary = super(VocabulariesVocabulary, self).__call__(context)
+        site = getSite()
+        current_base_url = getMultiAdapter((site, site.REQUEST), name="plone_context_state").current_base_url()
+        paths = urlparse(current_base_url).path.split('/')
+        if paths[-3] == 'dexterity-types':
+            name = u'{} - {}'.format(paths[-2], paths[-1])
+            terms = vocabulary._terms
+            for term in terms:
+                if term.title == name:
+                    terms.remove(term)
+                    break
+            vocabulary._terms = terms
 
-        return super(VocabulariesVocabulary, self).__call__(context)
+        return vocabulary

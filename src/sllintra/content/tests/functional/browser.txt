@@ -69,6 +69,11 @@ archive - multiple_choice_1 should not be in vocabulary selection::
     >>> 'archive - multiple_choice_1' not in browser.bycss('#form-widgets-vocabularyName')
     True
 
+archive - string_field_1 should not be in vocabulary selection::
+
+    >>> 'archive - string_field_1' not in browser.bycss('#form-widgets-vocabularyName')
+    True
+
     >>> print browser.bycss('#form-widgets-IFieldType-field_type')
     --- 1 ---
     <select id="form-widgets-IFieldType-field_type" name="form.widgets.IFieldType.field_type:list" class="select-widget required choice-field" size="1"><option id="form-widgets-IFieldType-field_type-0" value="radio">Radio button field</option><option id="form-widgets-IFieldType-field_type-1" value="select" selected>Select field</option></select>
@@ -121,6 +126,111 @@ Add another multiple choice field::
     >>> print browser.bycss('#form-widgets-multiple_choice_2')
     --- 1 ---
     <select id="form-widgets-multiple_choice_2" name="form.widgets.multiple_choice_2:list" class="select-widget set-field" multiple size="5"><option id="form-widgets-multiple_choice_2-0" value="AAA">AAA</option><option id="form-widgets-multiple_choice_2-1" value="\xc4\xc4\xc4">&#196;&#196;&#196;</option><option id="form-widgets-multiple_choice_2-2" value="\xc5\xc5\xc5">&#197;&#197;&#197;</option></select>
+
+Go to check multiple_choice_1::
+
+    >>> browser.open('/dexterity-types/archive/multiple_choice_1')
+
+    >>> 'archive - multiple_choice_1' not in browser.bycss('#form-widgets-vocabularyName')
+    True
+
+    >>> 'archive - multiple_choice_2' not in browser.bycss('#form-widgets-vocabularyName')
+    True
+
+    >>> browser.open('/dexterity-types/archive/multiple_choice_2')
+    >>> browser.getControl(name="form.widgets.values").value = ''
+    >>> browser.getControl(name="form.widgets.vocabularyName:list").value = []
+    >>> browser.getControl(name="form.buttons.save").click()
+
+    >>> browser.url
+    'http://nohost/plone/dexterity-types/archive/multiple_choice_2/@@edit'
+
+    >>> print browser.bycss('.info')
+    --- 1 ---
+    ...
+    --- 2 ---
+    <dl class="portalMessage info"><dt>Info</dt>
+    <dd>You need to input values or select vocabulary.</dd>
+    </dl>
+
+    >>> browser.open('/dexterity-types/archive/multiple_choice_2')
+    >>> browser.getControl(name="form.widgets.values").value = 'AAA\nBBB\nCCC'
+    >>> browser.getControl(name="form.buttons.save").click()
+
+    >>> browser.open('/dexterity-types/archive/multiple_choice_1')
+
+    >>> 'archive - multiple_choice_1' not in browser.bycss('#form-widgets-vocabularyName')
+    True
+
+    >>> 'archive - multiple_choice_2' in browser.bycss('#form-widgets-vocabularyName')
+    True
+
+    >>> browser.getControl(name="form.widgets.values").value = ''
+    >>> browser.getControl(name="form.widgets.vocabularyName:list").value = []
+    >>> browser.getControl(name="form.buttons.save").click()
+
+    >>> browser.url
+    'http://nohost/plone/dexterity-types/archive/multiple_choice_1/@@edit'
+
+    >>> print browser.bycss('.info')
+    --- 1 ---
+    ...
+    --- 2 ---
+    <dl class="portalMessage info"><dt>Info</dt>
+    <dd>You need to input values or select vocabulary.</dd>
+    </dl>
+
+    >>> browser.open('/dexterity-types/archive/multiple_choice_1')
+    >>> browser.getControl(name="form.widgets.values").value = ''
+    >>> browser.getControl(name="form.widgets.vocabularyName:list").value = ['archive - multiple_choice_2']
+    >>> browser.getControl(name="form.buttons.save").click()
+
+    >>> print browser.bycss('#form-widgets-multiple_choice_1')
+    --- 1 ---
+    <span id="form-widgets-multiple_choice_1">
+    <span class="option">
+    <input id="form-widgets-multiple_choice_1-0" name="form.widgets.multiple_choice_1:list" class="checkbox-widget set-field" value="AAA" type="checkbox"><label for="form-widgets-multiple_choice_1-0">
+    <span class="label">AAA</span>
+    </label>
+    </span>
+    <span class="option">
+    <input id="form-widgets-multiple_choice_1-1" name="form.widgets.multiple_choice_1:list" class="checkbox-widget set-field" value="BBB" type="checkbox"><label for="form-widgets-multiple_choice_1-1">
+    <span class="label">BBB</span>
+    </label>
+    </span>
+    <span class="option">
+    <input id="form-widgets-multiple_choice_1-2" name="form.widgets.multiple_choice_1:list" class="checkbox-widget set-field" value="CCC" type="checkbox"><label for="form-widgets-multiple_choice_1-2">
+    <span class="label">CCC</span>
+    </label>
+    </span>
+    </span>
+
+    >>> browser.open('/dexterity-types/archive/multiple_choice_2')
+
+    >>> 'archive - multiple_choice_1' not in browser.bycss('#form-widgets-vocabularyName')
+    True
+
+    >>> 'archive - multiple_choice_2' not in browser.bycss('#form-widgets-vocabularyName')
+    True
+
+Return values back to the original::
+
+    >>> browser.open('/dexterity-types/archive/multiple_choice_1')
+    >>> browser.getControl(name="form.widgets.values").value = 'AAA\nÄÄÄ\nÅÅÅ'
+    >>> browser.getControl(name="form.widgets.vocabularyName:list").value = []
+    >>> browser.getControl(name="form.buttons.save").click()
+
+    >>> browser.open('/dexterity-types/archive/multiple_choice_2')
+
+    >>> 'archive - multiple_choice_1' in browser.bycss('#form-widgets-vocabularyName')
+    True
+
+    >>> 'archive - multiple_choice_2' not in browser.bycss('#form-widgets-vocabularyName')
+    True
+
+    >>> browser.getControl(name="form.widgets.values").value = ''
+    >>> browser.getControl(name="form.widgets.vocabularyName:list").value = ['archive - multiple_choice_1']
+    >>> browser.getControl(name="form.buttons.save").click()
 
 Add Archive::
 
@@ -291,6 +401,12 @@ Add Choice field to archive::
     --- 1 ---
     <select id="form-widgets-multiple_choice_2" name="form.widgets.multiple_choice_2:list" class="select-widget set-field" multiple size="5"><option id="form-widgets-multiple_choice_2-0" value="AAA">AAA</option><option id="form-widgets-multiple_choice_2-1" value="BBB">BBB</option><option id="form-widgets-multiple_choice_2-2" value="CCC">CCC</option></select>
 
+There should be archive - choice_1 in multiple_choice_1::
+
+    >>> browser.open('/dexterity-types/archive/multiple_choice_1')
+    >>> 'archive - choice_1' in browser.bycss('#form-widgets-vocabularyName')
+    True
+
 Add Archive::
 
     >>> browser.open('/++add++archive')
@@ -322,6 +438,7 @@ Delete choice_1::
 
     >>> browser.open('/dexterity-types/archive/choice_1/@@delete')
     >>> browser.open('/dexterity-types/archive/@@fields')
+
     >>> print browser.bycss('#form-widgets-multiple_choice_2')
     --- 1 ---
     <select id="form-widgets-multiple_choice_2" name="form.widgets.multiple_choice_2:list" class="select-widget set-field" multiple size="5"><option id="form-widgets-multiple_choice_2-0" value="None">None</option></select>
@@ -333,3 +450,28 @@ Check Ötsikö2::
     --- 1 ---
     <select id="form-widgets-multiple_choice_2" name="form.widgets.multiple_choice_2:list" class="select-widget set-field" multiple size="5"><option id="form-widgets-multiple_choice_2-0" value="None">None</option></select>
 
+There should not be archive - choice_1 in multiple_choice_1::
+
+    >>> browser.open('/dexterity-types/archive/multiple_choice_1')
+    >>> 'archive - choice_1' not in browser.bycss('#form-widgets-vocabularyName')
+    True
+
+Check multiple_choice_2::
+
+    >>> browser.open('/dexterity-types/archive/multiple_choice_2')
+    >>> browser.getControl(name="form.widgets.values").value = ''
+    >>> browser.getControl(name="form.widgets.vocabularyName:list").value = ['archive - multiple_choice_1']
+    >>> browser.getControl(name="form.buttons.save").click()
+
+    >>> print browser.bycss('#form-widgets-multiple_choice_2')
+    --- 1 ---
+    <select id="form-widgets-multiple_choice_2" name="form.widgets.multiple_choice_2:list" class="select-widget set-field" multiple size="5"><option id="form-widgets-multiple_choice_2-0" value="AAA">AAA</option><option id="form-widgets-multiple_choice_2-1" value="\xc4\xc4\xc4">&#196;&#196;&#196;</option><option id="form-widgets-multiple_choice_2-2" value="\xc5\xc5\xc5">&#197;&#197;&#197;</option></select>
+
+Check Ötsikö2::
+
+    >>> browser.open('/otsiko2/edit')
+    >>> print browser.bycss('#form-widgets-multiple_choice_2')
+    --- 1 ---
+    <select id="form-widgets-multiple_choice_2" name="form.widgets.multiple_choice_2:list" class="select-widget set-field" multiple size="5"><option id="form-widgets-multiple_choice_2-0" value="AAA" selected>AAA</option><option id="form-widgets-multiple_choice_2-1" value="\xc4\xc4\xc4">&#196;&#196;&#196;</option><option id="form-widgets-multiple_choice_2-2" value="\xc5\xc5\xc5">&#197;&#197;&#197;</option></select>
+
+    # >>> browser.openBrowser()

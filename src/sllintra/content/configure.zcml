@@ -14,6 +14,7 @@
   <include package="plone.app.dexterity" />
   <include package="plone.behavior" file="meta.zcml" />
   <include package=".browser" />
+  <include file="upgrades.zcml"/>
 
   <permission
     id="sllintra.content.AddArchive"
@@ -72,5 +73,7 @@
     class=".form.EditArchiveView"
     permission="cmf.ModifyPortalContent"
     />
+
+  <subscriber handler=".subscriber.unregister_vocabulary" />
 
 </configure>
