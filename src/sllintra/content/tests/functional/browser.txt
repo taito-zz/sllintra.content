@@ -19,6 +19,7 @@ Set Behaviors::
     >>> browser.getControl(name="form.widgets.plone.app.dexterity.behaviors.metadata.IDublinCore:list").value = []
     >>> browser.getControl(name="form.widgets.plone.app.content.interfaces.INameFromTitle:list").value = []
     >>> browser.getControl(name="form.widgets.sllintra.content.interfaces.INameFromTitleOrFileName:list").value = ['checked']
+    >>> browser.getControl(name="form.widgets.plone.app.versioningbehavior.behaviors.IVersionable:list").value = ['checked']
     >>> browser.getControl(name="form.buttons.apply").click()
 
 Set Fields::

@@ -24,7 +24,9 @@ setup(
     zip_safe=False,
     install_requires=[
         'collective.base',
+        'collective.dexteritytextindexer',
         'plone.app.dexterity',
+        'plone.app.versioningbehavior',
         'setuptools'],
     extras_require={'test': ['hexagonit.testing']},
     entry_points="""

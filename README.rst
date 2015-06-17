@@ -5,6 +5,11 @@ sllintra.content
 Changelog
 ---------
 
+0.3 (2015-XX-XX)
+================
+
+- Add function to convert default content types into archive content type. [taito]
+
 0.2 (2015-03-17)
 ================
 

@@ -12,6 +12,8 @@
   <i18n:registerTranslations directory="locales" />
   <include package="collective.base" />
   <include package="plone.app.dexterity" />
+  <include package="collective.dexteritytextindexer"/>
+  <include package="plone.app.versioningbehavior"/>
   <include package="plone.behavior" file="meta.zcml" />
   <include package=".browser" />
   <include file="upgrades.zcml"/>

@@ -18,7 +18,7 @@ from zope.interface import alsoProvides
 from zope.interface import classImplements
 
 
-def _updata_widget(instance):
+def update_widget(instance):
     portal = instance.context.restrictedTraverse('@@plone_portal_state').portal()
     anno = IAnnotations(portal)
     name = 'sllintra.content.field_type'
@@ -90,7 +90,7 @@ class AddArchiveForm(add.DefaultAddForm):
                 )
 
     def updateWidgets(self):
-        _updata_widget(self)
+        update_widget(self)
         super(AddArchiveForm, self).updateWidgets()
 
 
@@ -103,7 +103,7 @@ class EditArchiveForm(edit.DefaultEditForm):
     """"""
 
     def updateWidgets(self):
-        _updata_widget(self)
+        update_widget(self)
         super(EditArchiveForm, self).updateWidgets()
 
 

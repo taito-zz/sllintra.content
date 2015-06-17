@@ -1,0 +1,567 @@
+Log in as Manager::
+
+    >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
+    >>> browser.open('/@@dexterity-types')
+
+Add Archive Content Type::
+
+    >>> browser.getControl("Add New Content Type…").click()
+    >>> browser.getControl(name="form.widgets.title").value = 'Archive'
+    >>> browser.getControl(name="form.widgets.id").value = 'archive'
+    >>> browser.getControl(name="form.buttons.add").click()
+
+Set Behaviors::
+
+    >>> browser.getLink('Behavior').click()
+    >>> browser.getControl(name="form.widgets.sllintra.content.interfaces.IBasic:list").value = ['checked']
+    >>> browser.getControl(name="form.widgets.plone.app.dexterity.behaviors.metadata.IDublinCore:list").value = []
+    >>> browser.getControl(name="form.widgets.collective.dexteritytextindexer.behavior.IDexterityTextIndexer:list").value = ['checked']
+    >>> browser.getControl(name="form.widgets.plone.app.content.interfaces.INameFromTitle:list").value = []
+    >>> browser.getControl(name="form.widgets.sllintra.content.interfaces.INameFromTitleOrFileName:list").value = ['checked']
+    >>> browser.getControl(name="form.widgets.plone.app.versioningbehavior.behaviors.IVersionable:list").value = ['checked']
+    >>> browser.getControl(name="form.buttons.apply").click()
+
+Set Fields::
+
+    >>> browser.getLink('Fields').click()
+
+Add file upload::
+
+    >>> browser.getControl("Add new field…").click()
+    >>> browser.getControl(name="form.widgets.title").value = 'Arkistoitava tiedosto'
+    >>> browser.getControl(name="form.widgets.__name__").value = 'arkistoitava_tiedosto'
+    >>> browser.getControl(name="form.widgets.factory:list").value = ['File Upload']
+    >>> browser.getControl(name="form.buttons.add").click()
+    >>> browser.open('/dexterity-types/archive/arkistoitava_tiedosto')
+    >>> browser.getControl(name="form.widgets.required:list").value = [True]
+    >>> browser.getControl(name="form.buttons.save").click()
+
+Add image::
+
+    >>> browser.getControl("Add new field…").click()
+    >>> browser.getControl(name="form.widgets.title").value = 'Kuva'
+    >>> browser.getControl(name="form.widgets.__name__").value = 'image'
+    >>> browser.getControl(name="form.widgets.factory:list").value = ['Image']
+    >>> browser.getControl(name="form.buttons.add").click()
+
+Add date::
+
+    >>> browser.getControl("Add new field…").click()
+    >>> browser.getControl(name="form.widgets.title").value = 'Päiväys'
+    >>> browser.getControl(name="form.widgets.__name__").value = 'paivays'
+    >>> browser.getControl(name="form.widgets.factory:list").value = ['Date/Time']
+    >>> browser.getControl(name="form.buttons.add").click()
+
+Add text::
+
+    >>> browser.getControl("Add new field…").click()
+    >>> browser.getControl(name="form.widgets.title").value = 'Teksti'
+    >>> browser.getControl(name="form.widgets.__name__").value = 'text'
+    >>> browser.getControl(name="form.widgets.factory:list").value = ['Rich Text']
+    >>> browser.getControl(name="form.buttons.add").click()
+
+Add aihepiiri::
+
+    >>> browser.getControl("Add new field…").click()
+    >>> browser.getControl(name="form.widgets.title").value = 'Aihepiiri'
+    >>> browser.getControl(name="form.widgets.__name__").value = 'aihepiiri'
+    >>> browser.getControl(name="form.widgets.factory:list").value = ['Multiple Choice']
+    >>> browser.getControl(name="form.buttons.add").click()
+
+    >>> browser.open('/dexterity-types/archive/aihepiiri')
+    >>> browser.getControl(name="form.widgets.values").value = 'Metsät\nSuot\nVedet\nLajit\nMaankäyttö'
+    >>> browser.getControl(name="form.widgets.IFieldType.field_type:list").value = [u'radio']
+    >>> browser.getControl(name="form.buttons.save").click()
+
+Add asiakirjan_luonne::
+
+    >>> browser.getControl("Add new field…").click()
+    >>> browser.getControl(name="form.widgets.title").value = 'Asiakirjan luonne'
+    >>> browser.getControl(name="form.widgets.__name__").value = 'asiakirjan_luonne'
+    >>> browser.getControl(name="form.widgets.factory:list").value = ['Multiple Choice']
+    >>> browser.getControl(name="form.buttons.add").click()
+
+    >>> browser.open('/dexterity-types/archive/asiakirjan_luonne')
+    >>> browser.getControl(name="form.widgets.values").value = 'Tiedote\nLausunto\nValitus\nVastaselitys\nPöytäkirja'
+    >>> browser.getControl(name="form.buttons.save").click()
+
+Add Archive::
+
+    >>> browser.open('/++add++archive')
+    >>> browser.getControl(name="form.widgets.IBasic.title").value = 'Ärchive'
+    >>> browser.getControl(name="form.widgets.IBasic.description").value = 'Description of Ärchive.'
+    >>> import StringIO
+    >>> dummy_file1 = StringIO.StringIO('Dummy file1')
+    >>> browser.getControl(name='form.widgets.arkistoitava_tiedosto').mech_control.add_file(dummy_file1, filename='dummy_file1.pdf')
+    >>> dummy_image1 = StringIO.StringIO('Dummy image1')
+    >>> browser.getControl(name='form.widgets.image').mech_control.add_file(dummy_image1, 'image/jpg', filename='dummy_image1.jpg')
+    >>> browser.getControl(name="form.widgets.paivays-day").value = '16'
+    >>> browser.getControl(name="form.widgets.paivays-month").value = ['10']
+    >>> browser.getControl(name="form.widgets.paivays-year").value = '2013'
+    >>> browser.getControl(name="form.widgets.text").value = '<p>Text of Ärchive.</p>'
+    >>> browser.getControl(name="form.widgets.aihepiiri:list").value = ['Suot', 'Vedet']
+    >>> browser.getControl(name="form.widgets.asiakirjan_luonne:list").value = ['Lausunto', ]
+    >>> browser.getControl(name="form.buttons.save").click()
+    >>> browser.url
+    'http://nohost/plone/archive/view'
+
+Check Folder::
+
+    >>> browser.open('/folder01/folder_contents')
+
+Add Document to folder::
+
+    >>> browser.open('/folder01/createObject?type_name=Document')
+    >>> browser.getControl(name="title").value = 'Döcument'
+    >>> browser.getControl(name="description").value = 'Description of Döcument'
+    >>> browser.getControl(name="text").value = '<p>Bödy of Döcument</p>'
+    >>> browser.getControl(name="effectiveDate_year").value = ['2013']
+    >>> browser.getControl(name="effectiveDate_month").value = ['05']
+    >>> browser.getControl(name="effectiveDate_day").value = ['24']
+    >>> browser.getControl(name="form.button.save").click()
+
+Add News Item to folder::
+
+    >>> browser.open('/folder01/createObject?type_name=News+Item')
+    >>> browser.getControl(name="title").value = 'News Item'
+    >>> browser.getControl(name="description").value = 'Description of News It€m'
+    >>> browser.getControl(name="text").value = '<p>Bödy of News It€m</p>'
+    >>> from pkg_resources import resource_stream
+    >>> dummy_image2 = resource_stream("plone.app.users.tests", 'onepixel.jpg')
+    >>> browser.getControl(name='image_file').mech_control.add_file(dummy_image2, 'image/jpg', filename='onepixel.jpg')
+    >>> browser.getControl(name="form.button.save").click()
+    >>> browser.getLink('Publish').click()
+
+Add Image to folder::
+
+    >>> browser.open('/folder01/createObject?type_name=Image')
+    >>> dummy_image3 = StringIO.StringIO('Dummy image 3')
+    >>> browser.getControl(name='image_file').mech_control.add_file(dummy_image3, 'image/jpg', filename='dummy_image3.jpg')
+    >>> browser.getControl(name="form.button.save").click()
+
+Add File to folder::
+
+    >>> dummy_file1 = StringIO.StringIO('Dummy file1')
+    >>> browser.open('/folder01/createObject?type_name=File')
+    >>> browser.getControl(name="title").value = 'File'
+    >>> browser.getControl(name="description").value = 'Description of Fil€'
+    >>> browser.getControl(name='file_file').mech_control.add_file(dummy_file1, filename='dummy_file1.pdf')
+    >>> browser.getControl(name="form.button.save").click()
+
+Folder contents::
+
+    >>> browser.open('/folder01/folder_contents')
+    >>> browser.getControl("Convert").click()
+    >>> browser.url
+    'http://nohost/plone/folder01/folder_contents'
+
+    >>> print browser.bycss('.documentFirstHeading')
+    --- 1 ---
+    <h1 class="documentFirstHeading">
+    <span class="" id="parent-fieldname-title-...">
+    Folder
+    </span>
+    </h1>
+
+    >>> print browser.bycss('.info')
+    --- 1 ---
+    ...
+    --- 2 ---
+    <dl class="portalMessage info"><dt>Info</dt>
+    <dd>Select the content items to be archived.</dd>
+    </dl>
+
+Convert Döcument::
+
+    >>> browser.getControl(name="paths:list").value = ['/plone/folder01/document', ]
+    >>> browser.getControl("Convert").click()
+    >>> browser.url
+    'http://nohost/plone/folder01'
+    >>> print browser.bycss('#form-widgets-paths')
+    --- 1 ---
+    <input id="form-widgets-paths" name="form.widgets.paths" value="/plone/folder01/document" class="hidden-widget" type="hidden">
+    >>> print browser.bycss('#form-widgets-IVersionable-changeNote')
+    --- 1 ---
+    <input id="form-widgets-IVersionable-changeNote" name="form.widgets.IVersionable.changeNote" value="" class="hidden-widget" type="hidden">
+
+    >>> browser.getControl(name="form.buttons.convert").click()
+    >>> browser.url
+    'http://nohost/plone/folder01/folder_contents'
+    >>> print browser.bycss('.info')
+    --- 1 ---
+    ...
+    --- 2 ---
+    <dl class="portalMessage info"><dt>Info</dt>
+    <dd>1 converted archive(s) are added to folder: Converted Archives</dd>
+    </dl>
+
+    >>> browser.getLink('Converted Archives').click()
+
+    >>> browser.getLink('Döcument', index=1).click()
+    >>> browser.url
+    'http://nohost/plone/folder01/converted-archives/document'
+
+    >>> print browser.bycss('.documentFirstHeading')
+    --- 1 ---
+    <h1 id="parent-fieldname-title" class="documentFirstHeading">
+    D&#246;cument
+    </h1>
+
+    >>> print browser.bycss('.documentDescription')
+    --- 1 ---
+    <div id="parent-fieldname-description" class="documentDescription">
+    Description of D&#246;cument
+    </div>
+
+    >>> print browser.bycss('#form-widgets-arkistoitava_tiedosto')
+    --- 1 ---
+    <span id="form-widgets-arkistoitava_tiedosto" class="named-file-widget namedblobfile-field">
+    <span class="discreet">
+    No file
+    </span>
+    </span>
+
+    >>> print browser.bycss('#form-widgets-image')
+    --- 1 ---
+    <span id="form-widgets-image" class="named-image-widget namedblobimage-field">
+    <span class="discreet">
+    No image
+    </span>
+    </span>
+
+    >>> print browser.bycss('#form-widgets-paivays')
+    --- 1 ---
+    <span id="form-widgets-paivays" class="datetime-widget datetime-field">...</span>
+
+    >>> print browser.bycss('#form-widgets-text')
+    --- 1 ---
+    <div id="form-widgets-text" class="richTextWidget richtext-field"><p>B&#246;dy of D&#246;cument</p></div>
+
+    >>> print browser.bycss('#form-widgets-aihepiiri')
+    --- 1 ---
+    <span id="form-widgets-aihepiiri" class="select-widget set-field"></span>
+
+    >>> print browser.bycss('#form-widgets-asiakirjan_luonne')
+    --- 1 ---
+    <span id="form-widgets-asiakirjan_luonne" class="select-widget set-field"></span>
+
+Convert Döcument once again with values::
+
+    >>> browser.open('/folder01/folder_contents')
+    >>> browser.getControl(name="paths:list").value = ['/plone/folder01/document', ]
+    >>> browser.getControl("Convert").click()
+
+    >>> browser.getControl(name="form.widgets.IBasic.title").value = "Döc01"
+    >>> browser.getControl(name="form.widgets.IBasic.description").value = "Description of Döc01."
+    >>> browser.getControl(name='form.widgets.arkistoitava_tiedosto').mech_control.add_file(dummy_file1, filename='dummy_file1.pdf')
+
+    >>> dummy_image4 = StringIO.StringIO('Dummy image4')
+    >>> browser.getControl(name='form.widgets.image').mech_control.add_file(dummy_image4, 'image/jpg', filename='dummy_image4.jpg')
+
+    >>> browser.getControl(name="form.widgets.paivays-day").value = "17"
+    >>> browser.getControl(name="form.widgets.paivays-month").value = ["12"]
+    >>> browser.getControl(name="form.widgets.paivays-year").value = "2012"
+    >>> browser.getControl(name="form.widgets.text").value = "<p>Text of Döc01.</p>"
+    >>> browser.getControl(name="form.widgets.aihepiiri:list").value = ['Vedet','Lajit']
+    >>> browser.getControl(name="form.widgets.asiakirjan_luonne:list").value = ['Lausunto', 'Valitus']
+    >>> browser.getControl(name="form.buttons.convert").click()
+
+    >>> print browser.bycss('.info')
+    --- 1 ---
+    ...
+    --- 2 ---
+    <dl class="portalMessage info"><dt>Info</dt>
+    <dd>1 converted archive(s) are added to folder: Converted Archives 1</dd>
+    </dl>
+
+    >>> browser.getLink('Converted Archives 1').click()
+
+    >>> browser.getLink('Döcument', index=1).click()
+    >>> browser.url
+    'http://nohost/plone/folder01/converted-archives-1/document'
+
+    >>> print browser.bycss('.documentFirstHeading')
+    --- 1 ---
+    <h1 id="parent-fieldname-title" class="documentFirstHeading">
+    D&#246;cument
+    </h1>
+
+    >>> print browser.bycss('.documentDescription')
+    --- 1 ---
+    <div id="parent-fieldname-description" class="documentDescription">
+    Description of D&#246;cument
+    </div>
+
+    >>> print browser.bycss('#form-widgets-arkistoitava_tiedosto')
+    --- 1 ---
+    <span id="form-widgets-arkistoitava_tiedosto" class="named-file-widget namedblobfile-field">
+    <span>
+    <img src="http://nohost/plone/pdf.png" alt="PDF document" title="dummy_file1.pdf"><a href="http://nohost/plone/folder01/converted-archives-1/document/view/++widget++form.widgets.arkistoitava_tiedosto/@@download/dummy_file1.pdf">dummy_file1.pdf</a>
+    <span class="discreet"> &#8212;
+    PDF document,
+    0 KB
+    </span>
+    </span>
+    </span>
+
+    >>> print browser.bycss('#form-widgets-image')
+    --- 1 ---
+    <span id="form-widgets-image" class="named-image-widget namedblobimage-field">
+    <img src="http://nohost/plone/folder01/converted-archives-1/document/view/++widget++form.widgets.image/@@download/dummy_image4.jpg" width="-1" height="-1"></span>
+
+
+    >>> print browser.bycss('#form-widgets-paivays')
+    --- 1 ---
+    <span id="form-widgets-paivays" class="datetime-widget datetime-field">...</span>
+
+    >>> print browser.bycss('#form-widgets-text')
+    --- 1 ---
+    <div id="form-widgets-text" class="richTextWidget richtext-field"><p>B&#246;dy of D&#246;cument</p></div>
+
+    >>> print browser.bycss('#form-widgets-aihepiiri')
+    --- 1 ---
+    <span id="form-widgets-aihepiiri" class="select-widget set-field"><span class="selected-option">Vedet</span>, <span class="selected-option">Lajit</span></span>
+
+    >>> print browser.bycss('#form-widgets-asiakirjan_luonne')
+    --- 1 ---
+    <span id="form-widgets-asiakirjan_luonne" class="select-widget set-field"><span class="selected-option">Lausunto</span>, <span class="selected-option">Valitus</span></span>
+
+Convert all again with values::
+
+    >>> browser.open('/folder01/folder_contents')
+
+    >>> browser.getControl(name="paths:list").value = ['/plone/folder01/document', '/plone/folder01/news-item', '/plone/folder01/dummy_image3.jpg', '/plone/folder01/file']
+    >>> browser.getControl("Convert").click()
+
+    >>> browser.getControl(name="form.widgets.IBasic.title").value = "Döc01"
+    >>> browser.getControl(name="form.widgets.IBasic.description").value = "Description of Döc01."
+    >>> browser.getControl(name='form.widgets.arkistoitava_tiedosto').mech_control.add_file(dummy_file1, filename='dummy_file1.pdf')
+    >>> browser.getControl(name='form.widgets.image').mech_control.add_file(dummy_image4, 'image/jpg', filename='dummy_image4.jpg')
+    >>> browser.getControl(name="form.widgets.paivays-day").value = "17"
+    >>> browser.getControl(name="form.widgets.paivays-month").value = ["12"]
+    >>> browser.getControl(name="form.widgets.paivays-year").value = "2012"
+    >>> browser.getControl(name="form.widgets.text").value = "<p>Text of Döc01.</p>"
+    >>> browser.getControl(name="form.widgets.aihepiiri:list").value = ['Vedet','Lajit']
+    >>> browser.getControl(name="form.widgets.asiakirjan_luonne:list").value = ['Lausunto', 'Valitus']
+    >>> browser.getControl(name="form.buttons.convert").click()
+
+    >>> print browser.bycss('.info')
+    --- 1 ---
+    ...
+    --- 2 ---
+    <dl class="portalMessage info"><dt>Info</dt>
+    <dd>4 converted archive(s) are added to folder: Converted Archives 2</dd>
+    </dl>
+
+    >>> browser.getLink('Converted Archives 2').click()
+
+Document::
+
+    >>> browser.getLink('Döcument', index=1).click()
+    >>> browser.url
+    'http://nohost/plone/folder01/converted-archives-2/document'
+
+    >>> print browser.bycss('.documentFirstHeading')
+    --- 1 ---
+    <h1 id="parent-fieldname-title" class="documentFirstHeading">
+    D&#246;cument
+    </h1>
+
+    >>> print browser.bycss('.documentDescription')
+    --- 1 ---
+    <div id="parent-fieldname-description" class="documentDescription">
+    Description of D&#246;cument
+    </div>
+
+    >>> print browser.bycss('#form-widgets-arkistoitava_tiedosto')
+    --- 1 ---
+    <span id="form-widgets-arkistoitava_tiedosto" class="named-file-widget namedblobfile-field">
+    <span>
+    <img src="http://nohost/plone/pdf.png" alt="PDF document" title="dummy_file1.pdf"><a href="http://nohost/plone/folder01/converted-archives-2/document/view/++widget++form.widgets.arkistoitava_tiedosto/@@download/dummy_file1.pdf">dummy_file1.pdf</a>
+    <span class="discreet"> &#8212;
+    PDF document,
+    0 KB
+    </span>
+    </span>
+    </span>
+
+    >>> print browser.bycss('#form-widgets-image')
+    --- 1 ---
+    <span id="form-widgets-image" class="named-image-widget namedblobimage-field">
+    <img src="http://nohost/plone/folder01/converted-archives-2/document/view/++widget++form.widgets.image/@@download/dummy_image4.jpg" width="-1" height="-1"></span>
+
+    >>> print browser.bycss('#form-widgets-paivays')
+    --- 1 ---
+    <span id="form-widgets-paivays" class="datetime-widget datetime-field">12/17/12 12:00 AM</span>
+
+    >>> print browser.bycss('#form-widgets-text')
+    --- 1 ---
+    <div id="form-widgets-text" class="richTextWidget richtext-field"><p>B&#246;dy of D&#246;cument</p></div>
+
+    >>> print browser.bycss('#form-widgets-aihepiiri')
+    --- 1 ---
+    <span id="form-widgets-aihepiiri" class="select-widget set-field"><span class="selected-option">Vedet</span>, <span class="selected-option">Lajit</span></span>
+
+    >>> print browser.bycss('#form-widgets-asiakirjan_luonne')
+    --- 1 ---
+    <span id="form-widgets-asiakirjan_luonne" class="select-widget set-field"><span class="selected-option">Lausunto</span>, <span class="selected-option">Valitus</span></span>
+
+News Item::
+
+    >>> browser.getLink('Converted Archives 2').click()
+
+    >>> browser.getLink('News Item', index=1).click()
+    >>> browser.url
+    'http://nohost/plone/folder01/converted-archives-2/news-item'
+
+    >>> print browser.bycss('.documentFirstHeading')
+    --- 1 ---
+    <h1 id="parent-fieldname-title" class="documentFirstHeading">
+    News Item
+    </h1>
+
+    >>> print browser.bycss('.documentDescription')
+    --- 1 ---
+    <div id="parent-fieldname-description" class="documentDescription">
+    Description of News It&#8364;m
+    </div>
+
+    >>> print browser.bycss('#form-widgets-arkistoitava_tiedosto')
+    --- 1 ---
+    <span id="form-widgets-arkistoitava_tiedosto" class="named-file-widget namedblobfile-field">
+    <span>
+    <img src="http://nohost/plone/pdf.png" alt="PDF document" title="dummy_file1.pdf"><a href="http://nohost/plone/folder01/converted-archives-2/news-item/view/++widget++form.widgets.arkistoitava_tiedosto/@@download/dummy_file1.pdf">dummy_file1.pdf</a>
+    <span class="discreet"> &#8212;
+    PDF document,
+    0 KB
+    </span>
+    </span>
+    </span>
+
+    >>> print browser.bycss('#form-widgets-image')
+    --- 1 ---
+    <span id="form-widgets-image" class="named-image-widget namedblobimage-field">
+    <img src="http://nohost/plone/folder01/converted-archives-2/news-item/view/++widget++form.widgets.image/@@download/onepixel.jpg" width="1" height="1"></span>
+
+    >>> print browser.bycss('#form-widgets-paivays')
+    --- 1 ---
+    <span id="form-widgets-paivays" class="datetime-widget datetime-field">...</span>
+
+    >>> print browser.bycss('#form-widgets-text')
+    --- 1 ---
+    <div id="form-widgets-text" class="richTextWidget richtext-field"><p>B&#246;dy of News It&#8364;m</p></div>
+
+    >>> print browser.bycss('#form-widgets-aihepiiri')
+    --- 1 ---
+    <span id="form-widgets-aihepiiri" class="select-widget set-field"><span class="selected-option">Vedet</span>, <span class="selected-option">Lajit</span></span>
+
+    >>> print browser.bycss('#form-widgets-asiakirjan_luonne')
+    --- 1 ---
+    <span id="form-widgets-asiakirjan_luonne" class="select-widget set-field"><span class="selected-option">Lausunto</span>, <span class="selected-option">Valitus</span></span>
+
+Image::
+
+    >>> browser.getLink('Converted Archives 2').click()
+    >>> browser.getLink('dummy_image3.jpg', index=1).click()
+    >>> browser.url
+    'http://nohost/plone/folder01/converted-archives-2/dummy_image3.jpg'
+
+    >>> print browser.bycss('.documentFirstHeading')
+    --- 1 ---
+    <h1 id="parent-fieldname-title" class="documentFirstHeading">
+    dummy_image3.jpg
+    </h1>
+
+    >>> print browser.bycss('.documentDescription')
+    --- 1 ---
+    <div id="parent-fieldname-description" class="documentDescription">
+    Description of D&#246;c01.
+    </div>
+
+    >>> print browser.bycss('#form-widgets-arkistoitava_tiedosto')
+    --- 1 ---
+    <span id="form-widgets-arkistoitava_tiedosto" class="named-file-widget namedblobfile-field">
+    <span>
+    <img src="http://nohost/plone/pdf.png" alt="PDF document" title="dummy_file1.pdf"><a href="http://nohost/plone/folder01/converted-archives-2/dummy_image3.jpg/view/++widget++form.widgets.arkistoitava_tiedosto/@@download/dummy_file1.pdf">dummy_file1.pdf</a>
+    <span class="discreet"> &#8212;
+    PDF document,
+    0 KB
+    </span>
+    </span>
+    </span>
+
+    >>> print browser.bycss('#form-widgets-image')
+    --- 1 ---
+    <span id="form-widgets-image" class="named-image-widget namedblobimage-field">
+    <img src="http://nohost/plone/folder01/converted-archives-2/dummy_image3.jpg/view/++widget++form.widgets.image/@@download/dummy_image3.jpg" width="-1" height="-1"></span>
+
+    >>> print browser.bycss('#form-widgets-paivays')
+    --- 1 ---
+    <span id="form-widgets-paivays" class="datetime-widget datetime-field">12/17/12 12:00 AM</span>
+
+    >>> print browser.bycss('#form-widgets-text')
+    --- 1 ---
+    <div id="form-widgets-text" class="richTextWidget richtext-field"><p>B&#246;dy of News It&#8364;m</p></div>
+
+    >>> print browser.bycss('#form-widgets-aihepiiri')
+    --- 1 ---
+    <span id="form-widgets-aihepiiri" class="select-widget set-field"><span class="selected-option">Vedet</span>, <span class="selected-option">Lajit</span></span>
+
+    >>> print browser.bycss('#form-widgets-asiakirjan_luonne')
+    --- 1 ---
+    <span id="form-widgets-asiakirjan_luonne" class="select-widget set-field"><span class="selected-option">Lausunto</span>, <span class="selected-option">Valitus</span></span>
+
+File::
+
+    >>> browser.getLink('Converted Archives 2').click()
+    >>> browser.getLink('File', index=1).click()
+    >>> browser.url
+    'http://nohost/plone/folder01/converted-archives-2/file'
+
+    >>> print browser.bycss('.documentFirstHeading')
+    --- 1 ---
+    <h1 id="parent-fieldname-title" class="documentFirstHeading">
+    File
+    </h1>
+
+    >>> print browser.bycss('.documentDescription')
+    --- 1 ---
+    <div id="parent-fieldname-description" class="documentDescription">
+    Description of Fil&#8364;
+    </div>
+
+    >>> print browser.bycss('#form-widgets-arkistoitava_tiedosto')
+    --- 1 ---
+    <span id="form-widgets-arkistoitava_tiedosto" class="named-file-widget namedblobfile-field">
+    <span>
+    <img src="http://nohost/plone/pdf.png" alt="PDF document" title="dummy_file1.pdf"><a href="http://nohost/plone/folder01/converted-archives-2/file/view/++widget++form.widgets.arkistoitava_tiedosto/@@download/dummy_file1.pdf">dummy_file1.pdf</a>
+    <span class="discreet"> &#8212;
+    PDF document,
+    1 KB
+    </span>
+    </span>
+    </span>
+
+    >>> print browser.bycss('#form-widgets-image')
+    --- 1 ---
+    <span id="form-widgets-image" class="named-image-widget namedblobimage-field">
+    <img src="http://nohost/plone/folder01/converted-archives-2/file/view/++widget++form.widgets.image/@@download/dummy_image4.jpg" width="-1" height="-1"></span>
+
+    >>> print browser.bycss('#form-widgets-paivays')
+    --- 1 ---
+    <span id="form-widgets-paivays" class="datetime-widget datetime-field">12/17/12 12:00 AM</span>
+
+    >>> print browser.bycss('#form-widgets-text')
+    --- 1 ---
+    <div id="form-widgets-text" class="richTextWidget richtext-field"><p>B&#246;dy of News It&#8364;m</p></div>
+
+    >>> print browser.bycss('#form-widgets-aihepiiri')
+    --- 1 ---
+    <span id="form-widgets-aihepiiri" class="select-widget set-field"><span class="selected-option">Vedet</span>, <span class="selected-option">Lajit</span></span>
+
+    >>> print browser.bycss('#form-widgets-asiakirjan_luonne')
+    --- 1 ---
+    <span id="form-widgets-asiakirjan_luonne" class="select-widget set-field"><span class="selected-option">Lausunto</span>, <span class="selected-option">Valitus</span></span>
+
+
+    # >>> browser.openBrowser()

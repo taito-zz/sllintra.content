@@ -1,3 +1,4 @@
+from Products.CMFCore.utils import getToolByName
 from zope.component import getSiteManager
 from zope.schema.interfaces import IVocabularyFactory
 from zope.site.hooks import getSite
@@ -6,6 +7,7 @@ import logging
 
 
 logger = logging.getLogger(__name__)
+PROFILE_ID = 'profile-sllintra.content:default'
 
 
 def unregister_vocabularies(setup):
@@ -16,3 +18,9 @@ def unregister_vocabularies(setup):
         sm.unregisterUtility(provided=IVocabularyFactory, name=name)
         message = '{} unregistered'.format(name)
         logger.info(message)
+
+
+def reimport_actions(context):
+    """Update actions"""
+    setup = getToolByName(context, 'portal_setup')
+    setup.runImportStepFromProfile(PROFILE_ID, 'actions', run_dependencies=False, purge_old=False)

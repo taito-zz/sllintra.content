@@ -22,4 +22,12 @@
   <adapter factory=".fields.getFieldType" />
   <adapter factory=".fields.FieldTypeAdapter" />
 
+  <browser:page
+    class=".view.ConvertView"
+    for="*"
+    layer=".interfaces.ISllintraContentLayer"
+    name="convert"
+    permission="plone.schemaeditor.ManageSchemata"
+    />
+
 </configure>

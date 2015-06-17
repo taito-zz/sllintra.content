@@ -13,4 +13,14 @@
     title="Unregister vocabularies"
     />
 
+  <genericsetup:upgradeStep
+    description=""
+    destination="2"
+    handler="sllintra.content.upgrades.reimport_actions"
+    profile="sllintra.content:default"
+    sortkey="1"
+    source="1"
+    title=""
+    />
+
 </configure>

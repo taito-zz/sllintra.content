@@ -13,6 +13,20 @@ class TestCase(IntegrationTestCase):
         installer = getToolByName(self.portal, 'portal_quickinstaller')
         self.assertTrue(installer.isProductInstalled('sllintra.content'))
 
+    def test_actions__folder_buttons__convert(self):
+        actions = getToolByName(self.portal, 'portal_actions')
+        action = getattr(actions, 'folder_buttons').convert
+        self.assertEqual(action.title, 'Convert')
+        self.assertEqual(action.description, '')
+        self.assertEqual(
+            action.getProperty('url_expr'),
+            'string:convert:method')
+        self.assertEqual(
+            action.getProperty('available_expr'),
+            '')
+        self.assertEqual(action.getProperty('permissions'), ('Add portal content',))
+        self.assertTrue(action.getProperty('visible'))
+
     def test_browserlayer(self):
         from sllintra.content.browser.interfaces import ISllintraContentLayer
         from plone.browserlayer import utils
@@ -21,11 +35,15 @@ class TestCase(IntegrationTestCase):
     def test_metadata__version(self):
         setup = getToolByName(self.portal, 'portal_setup')
         self.assertEqual(
-            setup.getVersionForProfile('profile-sllintra.content:default'), u'1')
+            setup.getVersionForProfile('profile-sllintra.content:default'), u'2')
 
     def test_metadata__installed__plone_app_dexterity(self):
         installer = getToolByName(self.portal, 'portal_quickinstaller')
         self.failUnless(installer.isProductInstalled('plone.app.dexterity'))
+
+    def test_metadata__installed__plone_app_versioningbehavior(self):
+        installer = getToolByName(self.portal, 'portal_quickinstaller')
+        self.failUnless(installer.isProductInstalled('plone.app.versioningbehavior'))
 
     def test_rolemap__sllintra_content_Add_Archive(self):
         permission = "sllintra.content: Add Archive"
