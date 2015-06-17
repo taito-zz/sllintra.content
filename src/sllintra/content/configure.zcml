@@ -10,6 +10,7 @@
   <five:registerPackage package="."/>
 
   <i18n:registerTranslations directory="locales" />
+  <include package="Products.CMFPlacefulWorkflow"/>
   <include package="collective.base" />
   <include package="plone.app.dexterity" />
   <include package="collective.dexteritytextindexer"/>
