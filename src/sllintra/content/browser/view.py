@@ -1,37 +1,18 @@
-from Acquisition import aq_inner
 from Products.CMFPlone.utils import safe_unicode
-from Products.Five import BrowserView
-from Products.statusmessages.interfaces import IStatusMessage
 from Products.statusmessages.interfaces import IStatusMessage
 from collective.base.interfaces import IAdapter
 from datetime import datetime
-from plone.dexterity.browser import add
-from plone.dexterity.browser import edit
-from plone.dexterity.browser.base import DexterityExtensibleForm
-from plone.dexterity.i18n import MessageFactory as DMF
-from plone.dexterity.interfaces import IDexterityEditForm
-from plone.dexterity.interfaces import IDexterityFTI
-from plone.dexterity.utils import addContentToContainer
 from plone.dexterity.utils import createContentInContainer
 from plone.namedfile.file import NamedBlobFile
 from plone.namedfile.file import NamedBlobImage
 from plone.z3cform import layout
 from sllintra.content import _
 from sllintra.content.form import AddArchiveForm
-from sllintra.content.form import update_widget
-from sllintra.content.interfaces import IArchive
 from z3c.form import button
-from z3c.form import form
-from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from z3c.form.field import Fields
-from zope.annotation.interfaces import IAnnotations
-from zope.component import getUtility
-from zope.interface import alsoProvides
-from zope.interface import classImplements
-from zope.lifecycleevent import modified
-from zope.schema import List
-from zope.schema import Text
 from z3c.form.interfaces import HIDDEN_MODE
+from zope.lifecycleevent import modified
+from zope.schema import Text
 
 
 paths_field = Text(__name__='paths', title=_(u'Paths'), readonly=True)
