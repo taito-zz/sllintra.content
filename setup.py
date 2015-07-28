@@ -23,13 +23,12 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'Products.CMFPlacefulWorkflow',
         'collective.base',
         'collective.dexteritytextindexer',
         'plone.app.dexterity',
         'plone.app.versioningbehavior',
         'setuptools'],
-    extras_require={'test': ['hexagonit.testing']},
+    extras_require={'test': ['Products.CMFPlacefulWorkflow', 'hexagonit.testing']},
     entry_points="""
     # -*- Entry points: -*-
 

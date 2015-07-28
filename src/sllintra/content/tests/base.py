@@ -21,6 +21,8 @@ class SllintraContentLayer(PloneSandboxLayer):
         z2.installProduct(app, 'Products.PythonScripts')
 
         # Load ZCML
+        import Products.CMFPlacefulWorkflow
+        self.loadZCML(package=Products.CMFPlacefulWorkflow)
         import sllintra.content
         self.loadZCML(package=sllintra.content)
         self.loadZCML(package=sllintra.content, name="overrides.zcml")

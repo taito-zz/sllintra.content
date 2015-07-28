@@ -9,6 +9,7 @@ Changelog
 ================
 
 - Add function to convert default content types into archive content type. [taito]
+- Add dependency to Products.CMFPlacefulWorkflow for testing. [taito]
 
 0.2 (2015-03-17)
 ================
