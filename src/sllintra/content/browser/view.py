@@ -49,9 +49,24 @@ class ConvertForm(AddArchiveForm):
             self.widgets['paths'].value = '\n'.join(self.paths)
         self.widgets['paths'].mode = HIDDEN_MODE
         self.widgets['IVersionable.changeNote'].mode = HIDDEN_MODE
+
         for widget in self.widgets:
+            description = _(u'convert_archive_default_help', default=u'This value will be the default value for the newly converted archive content.')
             if widget != 'paths':
                 self.widgets[widget].field.required = False
+            if widget == 'IBasic.title':
+                description = _(u'convert_archive_title_help', default=u'This value will be used for the newly converted archive content if the title is not set in the original content.')
+            if widget == 'IBasic.description':
+                description = _(u'convert_archive_description_help', default=u'This value will be used for the newly converted archive content if the description is not set in the original content.')
+            if widget == self.file_field().getName():
+                description = _(u'convert_archive_file_help', default=u'This file will be attached for the newly converted archive content if the file is not set in the original content.')
+            if widget == 'image':
+                description = _(u'convert_archive_image_help', default=u'This image will be attached for the newly converted archive content if the image is not set in the original content.')
+            if widget == 'paivays':
+                description = _(u'convert_archive_paivays_help', default=u'This value will be used for the newly converted archive content if the effective date is not set in the original content. If this value is empty and the effective date is not set, the creation date will be used for the new content.')
+            if widget == 'text':
+                description = _(u'convert_archive_text_help', default=u'This value will be used for the newly converted archive content if the text is not set in the original content.')
+            self.widgets[widget].field.description = description
 
     def update(self):
         self.paths = self.request.form.get('paths') or self.request.form.get('form.widgets.paths')
@@ -106,7 +121,7 @@ class ConvertForm(AddArchiveForm):
         # file
         file_data = None
         file_name = None
-        file_field = self._file_field()
+        file_field = self.file_field()
         name = 'form.widgets.{}'.format(file_field.getName())
         cfile = form.get(name)
         if cfile:
@@ -182,23 +197,6 @@ class ConvertForm(AddArchiveForm):
 
         url = '{}/folder_contents'.format(self.context.absolute_url())
         return self.request.response.redirect(url)
-
-        # obj = self.createAndAdd(data)
-        # if obj is not None:
-        #     # mark only as finished if we get the new object
-        #     self._finishedAdd = True
-
-        #     file_field = self._file_field()
-        #     if data[file_field.getName()] is None and data['IBasic.title'] is None:
-        #         message = _(u'input_title_or_add_file', default=u'You need to input title or add file to create this content type.')
-        #         IStatusMessage(self.request).addStatusMessage(message, type='info')
-
-        #     else:
-
-        #         IStatusMessage(self.request).addStatusMessage(
-        #             DMF(u"Item created"), "info success"
-        #         )
-
 
 
 ConvertView = layout.wrap_form(ConvertForm)

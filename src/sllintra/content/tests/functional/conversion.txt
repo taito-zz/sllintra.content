@@ -183,6 +183,23 @@ Convert Döcument::
     >>> print browser.bycss('#form-widgets-IVersionable-changeNote')
     --- 1 ---
     <input id="form-widgets-IVersionable-changeNote" name="form.widgets.IVersionable.changeNote" value="" class="hidden-widget" type="hidden">
+    >>> print browser.bycss('.formHelp')
+    --- 1 ---
+    <span class="formHelp">This value will be used for the newly converted archive content if the title is not set in the original content.</span>
+    --- 2 ---
+    <span class="formHelp">This value will be used for the newly converted archive content if the description is not set in the original content.</span>
+    --- 3 ---
+    <span class="formHelp">This file will be attached for the newly converted archive content if the file is not set in the original content.</span>
+    --- 4 ---
+    <span class="formHelp">This image will be attached for the newly converted archive content if the image is not set in the original content.</span>
+    --- 5 ---
+    <span class="formHelp">This value will be used for the newly converted archive content if the effective date is not set in the original content. If this value is empty and the effective date is not set, the creation date will be used for the new content.</span>
+    --- 6 ---
+    <span class="formHelp">This value will be used for the newly converted archive content if the text is not set in the original content.</span>
+    --- 7 ---
+    <span class="formHelp">This value will be the default value for the newly converted archive content.</span>
+    --- 8 ---
+    <span class="formHelp">This value will be the default value for the newly converted archive content.</span>
 
     >>> browser.getControl(name="form.buttons.convert").click()
     >>> browser.url

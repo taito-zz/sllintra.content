@@ -33,7 +33,7 @@ class AddArchiveForm(add.DefaultAddForm):
 
     portal_type = "archive"
 
-    def _file_field(self):
+    def file_field(self):
         """Fist file field"""
         file_field = None
         for field in self.fields.values():
@@ -48,7 +48,7 @@ class AddArchiveForm(add.DefaultAddForm):
         container = aq_inner(self.context)
         new_object = addContentToContainer(container, object)
 
-        file_field = self._file_field()
+        file_field = self.file_field()
         if object.title is None and getattr(object, file_field.getName()) is None:
 
             container._delObject(new_object.id)
@@ -78,7 +78,7 @@ class AddArchiveForm(add.DefaultAddForm):
             # mark only as finished if we get the new object
             self._finishedAdd = True
 
-            file_field = self._file_field()
+            file_field = self.file_field()
             if data[file_field.getName()] is None and data['IBasic.title'] is None:
                 message = _(u'input_title_or_add_file', default=u'You need to input title or add file to create this content type.')
                 IStatusMessage(self.request).addStatusMessage(message, type='info')
