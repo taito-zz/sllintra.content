@@ -20,6 +20,7 @@ class SllintraContentLayer(PloneSandboxLayer):
         # Required by Products.CMFPlone:plone-content to setup defaul plone site.
         z2.installProduct(app, 'Products.PythonScripts')
 
+        import Products.PloneTestCase
         # Load ZCML
         import Products.CMFPlacefulWorkflow
         self.loadZCML(package=Products.CMFPlacefulWorkflow)

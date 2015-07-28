@@ -2,10 +2,13 @@
 sllintra.content
 ================
 
+.. image:: https://secure.travis-ci.org/taito/sllintra.content.png
+    :target: http://travis-ci.org/taito/sllintra.content
+
 Changelog
 ---------
 
-0.3 (2015-XX-XX)
+0.3 (2015-07-28)
 ================
 
 - Add function to convert default content types into archive content type. [taito]
