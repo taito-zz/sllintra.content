@@ -8,6 +8,11 @@ sllintra.content
 Changelog
 ---------
 
+0.4 (2015-07-29)
+================
+
+- Show convert button only where Folder is addable. [taito]
+
 0.3 (2015-07-28)
 ================
 

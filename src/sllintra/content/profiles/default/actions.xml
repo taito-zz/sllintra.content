@@ -8,7 +8,7 @@
    <property name="description" i18n:translate=""></property>
    <property name="url_expr">string:convert:method</property>
    <property name="icon_expr"></property>
-   <property name="available_expr"></property>
+   <property name="available_expr">python: 'Folder' in context.getRawImmediatelyAddableTypes()</property>
    <property name="permissions">
     <element value="Add portal content"/>
    </property>

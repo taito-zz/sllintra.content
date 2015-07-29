@@ -23,7 +23,7 @@ class TestCase(IntegrationTestCase):
             'string:convert:method')
         self.assertEqual(
             action.getProperty('available_expr'),
-            '')
+            "python: 'Folder' in context.getRawImmediatelyAddableTypes()")
         self.assertEqual(action.getProperty('permissions'), ('Add portal content',))
         self.assertTrue(action.getProperty('visible'))
 

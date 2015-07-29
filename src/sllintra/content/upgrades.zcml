@@ -14,7 +14,7 @@
     />
 
   <genericsetup:upgradeStep
-    description=""
+    description="Reimport actions"
     destination="2"
     handler="sllintra.content.upgrades.reimport_actions"
     profile="sllintra.content:default"
