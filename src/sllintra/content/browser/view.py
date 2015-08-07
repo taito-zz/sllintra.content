@@ -1,3 +1,4 @@
+from OFS.Image import Pdata
 from Products.CMFPlone.utils import safe_unicode
 from Products.statusmessages.interfaces import IStatusMessage
 from collective.base.interfaces import IAdapter
@@ -84,7 +85,7 @@ class ConvertForm(AddArchiveForm):
 
         # 2. Find original objects.
         adapter = IAdapter(self.context)
-        paths = self.paths.split('\n')
+        paths = self.paths.split('\r\n') if '\r\n' in self.paths else self.paths.split('\n')
         objs = self.context.getObjectsFromPathList(paths)
         form = self.request.form
 
@@ -96,15 +97,25 @@ class ConvertForm(AddArchiveForm):
             fpaivays = datetime(int(form.get('form.widgets.paivays-year')),
                 int(form.get('form.widgets.paivays-month')), int(form.get('form.widgets.paivays-day')))
         text = form.get('form.widgets.text')
-        asiakirjan_luonne = form.get('form.widgets.asiakirjan_luonne')
-        aihepiiri = form.get('form.widgets.aihepiiri')
+
+        omits = ['form.widgets.IBasic.title',
+        'form.widgets.IBasic.description',
+        'form.widgets.paivays-year',
+        'form.widgets.paivays-month',
+        'form.widgets.paivays-day',
+        'form.widgets.text',
+        'form.widgets.text.mimeType',
+        'form.buttons.convert',
+        'form.widgets.paivays-empty-marker',
+        'form.widgets.paivays-calendar',
+        'form.widgets.IVersionable.changeNote',
+        'form.widgets.paths']
 
         # file
-        file_data = None
-        file_name = None
         file_field = self.file_field()
-        name = 'form.widgets.{}'.format(file_field.getName())
-        cfile = form.get(name)
+        fname = 'form.widgets.{}'.format(file_field.getName())
+        cfile = form.get(fname)
+        omits.append(fname)
         if cfile:
             cfile.seek(0)
             file_data = cfile.read()
@@ -112,20 +123,30 @@ class ConvertForm(AddArchiveForm):
             cfile.close()
 
         # image
-        image_data = None
-        image_name = None
-        cimage = form.get('form.widgets.image')
+        image_field = self.image_field()
+        iname = 'form.widgets.{}'.format(image_field.getName())
+        cimage = form.get(iname)
+        omits.append(iname)
         if cimage:
             cimage.seek(0)
             image_data = cimage.read()
             image_name = cimage.filename
             cimage.close()
 
+        keys = [key for key in form.keys() if key not in omits and key.startswith('form.widgets.') and not key.endswith('empty-marker')]
+        data = {}
+        for key in keys:
+            val = form.get(key)
+            if val:
+                if isinstance(val, list):
+                    val = [va.decode('unicode_escape') for va in val]
+                data[key.split('.')[2]] = val
+
         # 3. Select values and create archive.
         for obj in objs:
-            data = {}
-            data['title'] = obj.Title() or title
-            data['description'] = obj.Description() or description
+            data = data.copy()
+            data['title'] = safe_unicode(obj.Title()) or title
+            data['description'] = safe_unicode(obj.Description()) or description
             uuid = obj.UID()
             brain = adapter.get_brain(UID=uuid)
             paivays = fpaivays
@@ -140,36 +161,45 @@ class ConvertForm(AddArchiveForm):
                 text = safe_unicode(obj.getField('text').get(obj)) or text
             if text:
                 data['text'] = text
-            if form.get('form.widgets.asiakirjan_luonne') is not None:
-                data['asiakirjan_luonne'] = asiakirjan_luonne
-            if form.get('form.widgets.aihepiiri') is not None:
-                data['aihepiiri'] = aihepiiri
-
-            # file
-            ofile = obj.getField('file', obj)
-            if ofile and ofile.get(obj).get_size():
-                filedata = ofile.get(obj).data
-                filename = safe_unicode(ofile.get(obj).filename)
-            else:
-                filedata = file_data
-                filename = file_name
-            if file_data is not None and file_name is not None:
-                data['arkistoitava_tiedosto'] = NamedBlobFile(data=filedata, filename=safe_unicode(filename))
-
-            # image
-            oimage = obj.getField('image', obj)
-            if oimage and oimage.get(obj).get_size():
-                imagedata = oimage.get(obj).data
-                imagename = safe_unicode(oimage.get(obj).filename)
-            else:
-                imagedata = image_data
-                imagename = image_name
-            if image_data is not None:
-                if imagename is not None:
-                    imagename = safe_unicode(imagename)
-                data['image'] = NamedBlobImage(data=imagedata, filename=imagename)
 
             content = createContentInContainer(folder, 'archive', checkConstraints=False, **data)
+
+            # file
+            filedata = None
+            contentType = ''
+            ofile = obj.getField('file', obj)
+            if ofile:
+                file_obj = ofile.get(obj)
+                if file_obj and file_obj.get_size():
+                    filedata = file_obj.data
+                    filename = file_obj.filename or data['title']
+                    contentType = file_obj.getContentType()
+
+            if filedata is None and cfile:
+                filedata = file_data
+                filename = file_name
+
+            if filedata is not None:
+                setattr(content, file_field.getName(), NamedBlobFile(data=filedata, filename=safe_unicode(filename), contentType=contentType))
+
+            # image
+            imagedata = None
+            contentType = ''
+            oimage = obj.getField('image', obj)
+            if oimage:
+                image_obj = oimage.get(obj)
+                if image_obj and image_obj.get_size():
+                    imagedata = image_obj.data if not isinstance(image_obj.data, Pdata) else image_obj.data.data
+                    imagename = safe_unicode(image_obj.filename) or data['title']
+                    contentType = image_obj.getContentType()
+
+            if imagedata is None and cimage:
+                imagedata = image_data
+                imagename = image_name
+
+            if imagedata is not None:
+                setattr(content, image_field.getName(), NamedBlobImage(data=imagedata, filename=safe_unicode(imagename), contentType=contentType))
+
             modified(content)
 
         message = _(u"add_converted_archives_success", default=u"${number} converted archive(s) are added to folder: ${title}",

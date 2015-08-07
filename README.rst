@@ -8,6 +8,11 @@ sllintra.content
 Changelog
 ---------
 
+0.4.1 (2015-08-xx)
+==================
+
+- Fix handling of fields. [taito]
+
 0.4 (2015-07-29)
 ================
 

@@ -7,6 +7,7 @@ from plone.dexterity.interfaces import IDexterityEditForm
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import addContentToContainer
 from plone.namedfile.field import NamedBlobFile
+from plone.namedfile.field import NamedBlobImage
 from plone.z3cform import layout
 from sllintra.content import _
 from sllintra.content.interfaces import IArchive
@@ -16,6 +17,7 @@ from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
 from zope.interface import alsoProvides
 from zope.interface import classImplements
+from plone.memoize import instance
 
 
 def update_widget(instance):
@@ -33,14 +35,25 @@ class AddArchiveForm(add.DefaultAddForm):
 
     portal_type = "archive"
 
+    @instance.memoize
     def file_field(self):
-        """Fist file field"""
+        """First file field"""
         file_field = None
         for field in self.fields.values():
             if isinstance(field.field, NamedBlobFile):
                 file_field = field.field
                 break
         return file_field
+
+    @instance.memoize
+    def image_field(self):
+        """First image field"""
+        image_field = None
+        for field in self.fields.values():
+            if isinstance(field.field, NamedBlobImage):
+                image_field = field.field
+                break
+        return image_field
 
     def add(self, object):
 

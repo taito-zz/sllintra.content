@@ -23,7 +23,7 @@ class TestCase(IntegrationTestCase):
             'string:convert:method')
         self.assertEqual(
             action.getProperty('available_expr'),
-            "python: 'Folder' in context.getRawImmediatelyAddableTypes()")
+            'python: context.restrictedTraverse("plone_interface_info").provides("Products.ATContentTypes.interfaces.IATFolder") and "Folder" in context.getRawImmediatelyAddableTypes()')
         self.assertEqual(action.getProperty('permissions'), ('Add portal content',))
         self.assertTrue(action.getProperty('visible'))
 
