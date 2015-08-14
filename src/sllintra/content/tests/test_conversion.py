@@ -45,6 +45,7 @@ def setUp(self):
 
     # Create folder
     portal.invokeFactory('Folder', id='folder01', title='Folder')
+    self.globs['folder01'] = portal['folder01']
 
     transaction.commit()
 

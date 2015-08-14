@@ -8,6 +8,13 @@ sllintra.content
 Changelog
 ---------
 
+0.5 (2015-08-xx)
+================
+
+- Change folder ID and title to use parent folder ID and title. [taito]
+- Remove original object after conversion. [taito]
+- Fix edit form for the converted archive. [taito]
+
 0.4.1 (2015-08-10)
 ==================
 

@@ -9,9 +9,11 @@ from plone.namedfile.file import NamedBlobImage
 from plone.z3cform import layout
 from sllintra.content import _
 from sllintra.content.form import AddArchiveForm
+from sllintra.content.interfaces import IArchive
 from z3c.form import button
 from z3c.form.field import Fields
 from z3c.form.interfaces import HIDDEN_MODE
+from zope.interface import alsoProvides
 from zope.lifecycleevent import modified
 from zope.schema import Text
 
@@ -67,21 +69,12 @@ class ConvertForm(AddArchiveForm):
             self.status = self.formErrorsMessage
             return
 
-        # 1. Create folder where selected items will be archived.
-        fid = 'converted-archives'
-        ftitle = u'Converted Archives'
-        number = 0
-        while self.context.get(fid) is not None:
-            number += 1
-            if number != 1:
-                fid.split('-')[:2]
-                fid = '-'.join(fid.split('-')[:2])
-                ftitle = ' '.join(ftitle.split(' ')[:2])
-            fid = '{}-{}'.format(fid, number)
-            ftitle = '{} {}'.format(ftitle, number)
-
-        self.context.invokeFactory('Folder', fid, title=ftitle)
-        folder = self.context[fid]
+        # 1. Find or create folder where selected items will be archived.
+        folder_id = "{}-converted".format(self.context.id)
+        folder_title = "{} Converted".format(self.context.Title())
+        folder = self.context.get(folder_id)
+        if folder is None:
+            folder = self.context[self.context.invokeFactory('Folder', folder_id, title=folder_title)]
 
         # 2. Find original objects.
         adapter = IAdapter(self.context)
@@ -142,6 +135,7 @@ class ConvertForm(AddArchiveForm):
                     val = [va.decode('unicode_escape') for va in val]
                 data[key.split('.')[2]] = val
 
+        object_ids = []
         # 3. Select values and create archive.
         for obj in objs:
             data = data.copy()
@@ -200,10 +194,15 @@ class ConvertForm(AddArchiveForm):
             if imagedata is not None:
                 setattr(content, image_field.getName(), NamedBlobImage(data=imagedata, filename=safe_unicode(imagename), contentType=contentType))
 
+            alsoProvides(content, IArchive)
             modified(content)
 
+            object_ids.append(obj.id)
+        # Remove the original object
+        self.context.manage_delObjects(object_ids)
+
         message = _(u"add_converted_archives_success", default=u"${number} converted archive(s) are added to folder: ${title}",
-            mapping={'number': len(objs), 'title': ftitle})
+            mapping={'number': len(objs), 'title': safe_unicode(folder_title)})
         IStatusMessage(self.request).addStatusMessage(message, type='info')
 
         url = '{}/folder_contents'.format(self.context.absolute_url())

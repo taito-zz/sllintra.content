@@ -88,6 +88,37 @@ Add asiakirjan_luonne::
 Add Archive::
 
     >>> browser.open('/++add++archive')
+
+    >>> print browser.bycss("#form-widgets-aihepiiri")
+    --- 1 ---
+    <span id="form-widgets-aihepiiri">
+    <span class="option">
+    <input id="form-widgets-aihepiiri-0" name="form.widgets.aihepiiri:list" class="checkbox-widget set-field" value="Mets\xe4t" type="checkbox"><label for="form-widgets-aihepiiri-0">
+    <span class="label">Mets&#228;t</span>
+    </label>
+    </span>
+    <span class="option">
+    <input id="form-widgets-aihepiiri-1" name="form.widgets.aihepiiri:list" class="checkbox-widget set-field" value="Suot" type="checkbox"><label for="form-widgets-aihepiiri-1">
+    <span class="label">Suot</span>
+    </label>
+    </span>
+    <span class="option">
+    <input id="form-widgets-aihepiiri-2" name="form.widgets.aihepiiri:list" class="checkbox-widget set-field" value="Vedet" type="checkbox"><label for="form-widgets-aihepiiri-2">
+    <span class="label">Vedet</span>
+    </label>
+    </span>
+    <span class="option">
+    <input id="form-widgets-aihepiiri-3" name="form.widgets.aihepiiri:list" class="checkbox-widget set-field" value="Lajit" type="checkbox"><label for="form-widgets-aihepiiri-3">
+    <span class="label">Lajit</span>
+    </label>
+    </span>
+    <span class="option">
+    <input id="form-widgets-aihepiiri-4" name="form.widgets.aihepiiri:list" class="checkbox-widget set-field" value="Maank\xe4ytt\xf6" type="checkbox"><label for="form-widgets-aihepiiri-4">
+    <span class="label">Maank&#228;ytt&#246;</span>
+    </label>
+    </span>
+    </span>
+
     >>> browser.getControl(name="form.widgets.IBasic.title").value = 'Ärchive'
     >>> browser.getControl(name="form.widgets.IBasic.description").value = 'Description of Ärchive.'
     >>> import StringIO
@@ -104,6 +135,40 @@ Add Archive::
     >>> browser.getControl(name="form.buttons.save").click()
     >>> browser.url
     'http://nohost/plone/archive/view'
+
+Check the edit form::
+
+    >>> browser.getLink('Edit').click()
+
+    >>> print browser.bycss("#form-widgets-aihepiiri")
+    --- 1 ---
+    <span id="form-widgets-aihepiiri">
+    <span class="option">
+    <input id="form-widgets-aihepiiri-0" name="form.widgets.aihepiiri:list" class="checkbox-widget set-field" value="Mets\xe4t" type="checkbox"><label for="form-widgets-aihepiiri-0">
+    <span class="label">Mets&#228;t</span>
+    </label>
+    </span>
+    <span class="option">
+    <input type="checkbox" id="form-widgets-aihepiiri-1" name="form.widgets.aihepiiri:list" class="checkbox-widget set-field" value="Suot" checked><label for="form-widgets-aihepiiri-1">
+    <span class="label">Suot</span>
+    </label>
+    </span>
+    <span class="option">
+    <input type="checkbox" id="form-widgets-aihepiiri-2" name="form.widgets.aihepiiri:list" class="checkbox-widget set-field" value="Vedet" checked><label for="form-widgets-aihepiiri-2">
+    <span class="label">Vedet</span>
+    </label>
+    </span>
+    <span class="option">
+    <input id="form-widgets-aihepiiri-3" name="form.widgets.aihepiiri:list" class="checkbox-widget set-field" value="Lajit" type="checkbox"><label for="form-widgets-aihepiiri-3">
+    <span class="label">Lajit</span>
+    </label>
+    </span>
+    <span class="option">
+    <input id="form-widgets-aihepiiri-4" name="form.widgets.aihepiiri:list" class="checkbox-widget set-field" value="Maank\xe4ytt\xf6" type="checkbox"><label for="form-widgets-aihepiiri-4">
+    <span class="label">Maank&#228;ytt&#246;</span>
+    </label>
+    </span>
+    </span>
 
 Check Folder::
 
@@ -171,6 +236,9 @@ Folder contents::
     <dd>Select the content items to be archived.</dd>
     </dl>
 
+    >>> folder01['document']
+    <ATDocument at /plone/folder01/document>
+
 Convert Döcument::
 
     >>> browser.getControl(name="paths:list").value = ['/plone/folder01/document', ]
@@ -201,7 +269,40 @@ Convert Döcument::
     --- 8 ---
     <span class="formHelp">This value will be the default value for the newly converted archive content.</span>
 
+Check the checkboxes::
+
+    >>> print browser.bycss("#form-widgets-aihepiiri")
+    --- 1 ---
+    <span id="form-widgets-aihepiiri">
+    <span class="option">
+    <input id="form-widgets-aihepiiri-0" name="form.widgets.aihepiiri:list" class="checkbox-widget set-field" value="Mets\xe4t" type="checkbox"><label for="form-widgets-aihepiiri-0">
+    <span class="label">Mets&#228;t</span>
+    </label>
+    </span>
+    <span class="option">
+    <input id="form-widgets-aihepiiri-1" name="form.widgets.aihepiiri:list" class="checkbox-widget set-field" value="Suot" type="checkbox"><label for="form-widgets-aihepiiri-1">
+    <span class="label">Suot</span>
+    </label>
+    </span>
+    <span class="option">
+    <input id="form-widgets-aihepiiri-2" name="form.widgets.aihepiiri:list" class="checkbox-widget set-field" value="Vedet" type="checkbox"><label for="form-widgets-aihepiiri-2">
+    <span class="label">Vedet</span>
+    </label>
+    </span>
+    <span class="option">
+    <input id="form-widgets-aihepiiri-3" name="form.widgets.aihepiiri:list" class="checkbox-widget set-field" value="Lajit" type="checkbox"><label for="form-widgets-aihepiiri-3">
+    <span class="label">Lajit</span>
+    </label>
+    </span>
+    <span class="option">
+    <input id="form-widgets-aihepiiri-4" name="form.widgets.aihepiiri:list" class="checkbox-widget set-field" value="Maank\xe4ytt\xf6" type="checkbox"><label for="form-widgets-aihepiiri-4">
+    <span class="label">Maank&#228;ytt&#246;</span>
+    </label>
+    </span>
+    </span>
+
     >>> browser.getControl(name="form.buttons.convert").click()
+
     >>> browser.url
     'http://nohost/plone/folder01/folder_contents'
     >>> print browser.bycss('.info')
@@ -209,14 +310,19 @@ Convert Döcument::
     ...
     --- 2 ---
     <dl class="portalMessage info"><dt>Info</dt>
-    <dd>1 converted archive(s) are added to folder: Converted Archives</dd>
+    <dd>1 converted archive(s) are added to folder: Folder Converted</dd>
     </dl>
 
-    >>> browser.getLink('Converted Archives').click()
+    >>> folder01['document']
+    Traceback (most recent call last):
+    ...
+    KeyError: 'document'
+
+    >>> browser.getLink('Folder Converted').click()
 
     >>> browser.getLink('Döcument', index=1).click()
     >>> browser.url
-    'http://nohost/plone/folder01/converted-archives/document'
+    'http://nohost/plone/folder01/folder01-converted/document'
 
     >>> print browser.bycss('.documentFirstHeading')
     --- 1 ---
@@ -262,7 +368,63 @@ Convert Döcument::
     --- 1 ---
     <span id="form-widgets-asiakirjan_luonne" class="select-widget set-field"></span>
 
+Go to newly created document edit form in Folder Converted and check checkboxes::
+
+    >>> browser.getLink('Edit').click()
+    >>> browser.url
+    'http://nohost/plone/folder01/folder01-converted/document/edit'
+
+    >>> print browser.bycss("#form-widgets-aihepiiri")
+    --- 1 ---
+    <span id="form-widgets-aihepiiri">
+    <span class="option">
+    <input id="form-widgets-aihepiiri-0" name="form.widgets.aihepiiri:list" class="checkbox-widget set-field" value="Mets\xe4t" type="checkbox"><label for="form-widgets-aihepiiri-0">
+    <span class="label">Mets&#228;t</span>
+    </label>
+    </span>
+    <span class="option">
+    <input id="form-widgets-aihepiiri-1" name="form.widgets.aihepiiri:list" class="checkbox-widget set-field" value="Suot" type="checkbox"><label for="form-widgets-aihepiiri-1">
+    <span class="label">Suot</span>
+    </label>
+    </span>
+    <span class="option">
+    <input id="form-widgets-aihepiiri-2" name="form.widgets.aihepiiri:list" class="checkbox-widget set-field" value="Vedet" type="checkbox"><label for="form-widgets-aihepiiri-2">
+    <span class="label">Vedet</span>
+    </label>
+    </span>
+    <span class="option">
+    <input id="form-widgets-aihepiiri-3" name="form.widgets.aihepiiri:list" class="checkbox-widget set-field" value="Lajit" type="checkbox"><label for="form-widgets-aihepiiri-3">
+    <span class="label">Lajit</span>
+    </label>
+    </span>
+    <span class="option">
+    <input id="form-widgets-aihepiiri-4" name="form.widgets.aihepiiri:list" class="checkbox-widget set-field" value="Maank\xe4ytt\xf6" type="checkbox"><label for="form-widgets-aihepiiri-4">
+    <span class="label">Maank&#228;ytt&#246;</span>
+    </label>
+    </span>
+    </span>
+
 Convert Döcument once again with values::
+
+Remove Document from Folder Converted::
+
+    >>> browser.open('/folder01/folder_contents')
+    >>> browser.getControl(name="paths:list").value = ['/plone/folder01/folder01-converted', ]
+    >>> browser.getControl(name="folder_delete:method").click()
+
+Add Document to folder::
+
+    >>> browser.open('/folder01/createObject?type_name=Document')
+    >>> browser.getControl(name="title").value = 'Döcument'
+    >>> browser.getControl(name="description").value = 'Description of Döcument'
+    >>> browser.getControl(name="text").value = '<p>Bödy of Döcument</p>'
+    >>> browser.getControl(name="effectiveDate_year").value = ['2013']
+    >>> browser.getControl(name="effectiveDate_month").value = ['05']
+    >>> browser.getControl(name="effectiveDate_day").value = ['24']
+    >>> browser.getControl(name="form.button.save").click()
+
+    >>> folder01['document']
+    <ATDocument at /plone/folder01/document>
 
     >>> browser.open('/folder01/folder_contents')
     >>> browser.getControl(name="paths:list").value = ['/plone/folder01/document', ]
@@ -288,14 +450,19 @@ Convert Döcument once again with values::
     ...
     --- 2 ---
     <dl class="portalMessage info"><dt>Info</dt>
-    <dd>1 converted archive(s) are added to folder: Converted Archives 1</dd>
+    <dd>1 converted archive(s) are added to folder: Folder Converted</dd>
     </dl>
 
-    >>> browser.getLink('Converted Archives 1').click()
+    >>> folder01['document']
+    Traceback (most recent call last):
+    ...
+    KeyError: 'document'
+
+    >>> browser.getLink('Folder Converted').click()
 
     >>> browser.getLink('Döcument', index=1).click()
     >>> browser.url
-    'http://nohost/plone/folder01/converted-archives-1/document'
+    'http://nohost/plone/folder01/folder01-converted/document'
 
     >>> print browser.bycss('.documentFirstHeading')
     --- 1 ---
@@ -313,7 +480,7 @@ Convert Döcument once again with values::
     --- 1 ---
     <span id="form-widgets-arkistoitava_tiedosto" class="named-file-widget namedblobfile-field">
     <span>
-    <img src="http://nohost/plone/pdf.png" alt="PDF document" title="dummy_file1.pdf"><a href="http://nohost/plone/folder01/converted-archives-1/document/view/++widget++form.widgets.arkistoitava_tiedosto/@@download/dummy_file1.pdf">dummy_file1.pdf</a>
+    <img src="http://nohost/plone/pdf.png" alt="PDF document" title="dummy_file1.pdf"><a href="http://nohost/plone/folder01/folder01-converted/document/view/++widget++form.widgets.arkistoitava_tiedosto/@@download/dummy_file1.pdf">dummy_file1.pdf</a>
     <span class="discreet"> &#8212;
     PDF document,
     0 KB
@@ -324,7 +491,7 @@ Convert Döcument once again with values::
     >>> print browser.bycss('#form-widgets-image')
     --- 1 ---
     <span id="form-widgets-image" class="named-image-widget namedblobimage-field">
-    <img src="http://nohost/plone/folder01/converted-archives-1/document/view/++widget++form.widgets.image/@@download/dummy_image4.jpg" width="-1" height="-1"></span>
+    <img src="http://nohost/plone/folder01/folder01-converted/document/view/++widget++form.widgets.image/@@download/dummy_image4.jpg" width="-1" height="-1"></span>
 
 
     >>> print browser.bycss('#form-widgets-paivays')
@@ -344,6 +511,23 @@ Convert Döcument once again with values::
     <span id="form-widgets-asiakirjan_luonne" class="select-widget set-field"><span class="selected-option">Lausunto</span>, <span class="selected-option">Valitus</span></span>
 
 Convert all again with values::
+
+Remove Document from Folder Converted::
+
+    >>> browser.open('/folder01/folder_contents')
+    >>> browser.getControl(name="paths:list").value = ['/plone/folder01/folder01-converted', ]
+    >>> browser.getControl(name="folder_delete:method").click()
+
+Add Document to folder::
+
+    >>> browser.open('/folder01/createObject?type_name=Document')
+    >>> browser.getControl(name="title").value = 'Döcument'
+    >>> browser.getControl(name="description").value = 'Description of Döcument'
+    >>> browser.getControl(name="text").value = '<p>Bödy of Döcument</p>'
+    >>> browser.getControl(name="effectiveDate_year").value = ['2013']
+    >>> browser.getControl(name="effectiveDate_month").value = ['05']
+    >>> browser.getControl(name="effectiveDate_day").value = ['24']
+    >>> browser.getControl(name="form.button.save").click()
 
     >>> browser.open('/folder01/folder_contents')
 
@@ -367,16 +551,16 @@ Convert all again with values::
     ...
     --- 2 ---
     <dl class="portalMessage info"><dt>Info</dt>
-    <dd>4 converted archive(s) are added to folder: Converted Archives 2</dd>
+    <dd>4 converted archive(s) are added to folder: Folder Converted</dd>
     </dl>
 
-    >>> browser.getLink('Converted Archives 2').click()
+    >>> browser.getLink('Folder Converted').click()
 
 Document::
 
     >>> browser.getLink('Döcument', index=1).click()
     >>> browser.url
-    'http://nohost/plone/folder01/converted-archives-2/document'
+    'http://nohost/plone/folder01/folder01-converted/document'
 
     >>> print browser.bycss('.documentFirstHeading')
     --- 1 ---
@@ -394,7 +578,7 @@ Document::
     --- 1 ---
     <span id="form-widgets-arkistoitava_tiedosto" class="named-file-widget namedblobfile-field">
     <span>
-    <img src="http://nohost/plone/pdf.png" alt="PDF document" title="dummy_file1.pdf"><a href="http://nohost/plone/folder01/converted-archives-2/document/view/++widget++form.widgets.arkistoitava_tiedosto/@@download/dummy_file1.pdf">dummy_file1.pdf</a>
+    <img src="http://nohost/plone/pdf.png" alt="PDF document" title="dummy_file1.pdf"><a href="http://nohost/plone/folder01/folder01-converted/document/view/++widget++form.widgets.arkistoitava_tiedosto/@@download/dummy_file1.pdf">dummy_file1.pdf</a>
     <span class="discreet"> &#8212;
     PDF document,
     0 KB
@@ -405,7 +589,7 @@ Document::
     >>> print browser.bycss('#form-widgets-image')
     --- 1 ---
     <span id="form-widgets-image" class="named-image-widget namedblobimage-field">
-    <img src="http://nohost/plone/folder01/converted-archives-2/document/view/++widget++form.widgets.image/@@download/dummy_image4.jpg" width="-1" height="-1"></span>
+    <img src="http://nohost/plone/folder01/folder01-converted/document/view/++widget++form.widgets.image/@@download/dummy_image4.jpg" width="-1" height="-1"></span>
 
     >>> print browser.bycss('#form-widgets-paivays')
     --- 1 ---
@@ -425,11 +609,11 @@ Document::
 
 News Item::
 
-    >>> browser.getLink('Converted Archives 2').click()
+    >>> browser.getLink('Folder Converted').click()
 
-    >>> browser.getLink('News Item', index=1).click()
+    >>> browser.getLink('News Item', index=2).click()
     >>> browser.url
-    'http://nohost/plone/folder01/converted-archives-2/news-item'
+    'http://nohost/plone/folder01/folder01-converted/news-item'
 
     >>> print browser.bycss('.documentFirstHeading')
     --- 1 ---
@@ -447,7 +631,7 @@ News Item::
     --- 1 ---
     <span id="form-widgets-arkistoitava_tiedosto" class="named-file-widget namedblobfile-field">
     <span>
-    <img src="http://nohost/plone/pdf.png" alt="PDF document" title="dummy_file1.pdf"><a href="http://nohost/plone/folder01/converted-archives-2/news-item/view/++widget++form.widgets.arkistoitava_tiedosto/@@download/dummy_file1.pdf">dummy_file1.pdf</a>
+    <img src="http://nohost/plone/pdf.png" alt="PDF document" title="dummy_file1.pdf"><a href="http://nohost/plone/folder01/folder01-converted/news-item/view/++widget++form.widgets.arkistoitava_tiedosto/@@download/dummy_file1.pdf">dummy_file1.pdf</a>
     <span class="discreet"> &#8212;
     PDF document,
     0 KB
@@ -458,7 +642,7 @@ News Item::
     >>> print browser.bycss('#form-widgets-image')
     --- 1 ---
     <span id="form-widgets-image" class="named-image-widget namedblobimage-field">
-    <img src="http://nohost/plone/folder01/converted-archives-2/news-item/view/++widget++form.widgets.image/@@download/onepixel.jpg" width="1" height="1"></span>
+    <img src="http://nohost/plone/folder01/folder01-converted/news-item/view/++widget++form.widgets.image/@@download/onepixel.jpg" width="1" height="1"></span>
 
     >>> print browser.bycss('#form-widgets-paivays')
     --- 1 ---
@@ -478,10 +662,10 @@ News Item::
 
 Image::
 
-    >>> browser.getLink('Converted Archives 2').click()
+    >>> browser.getLink('Folder Converted').click()
     >>> browser.getLink('dummy_image3.jpg', index=1).click()
     >>> browser.url
-    'http://nohost/plone/folder01/converted-archives-2/dummy_image3.jpg'
+    'http://nohost/plone/folder01/folder01-converted/dummy_image3.jpg'
 
     >>> print browser.bycss('.documentFirstHeading')
     --- 1 ---
@@ -499,7 +683,7 @@ Image::
     --- 1 ---
     <span id="form-widgets-arkistoitava_tiedosto" class="named-file-widget namedblobfile-field">
     <span>
-    <img src="http://nohost/plone/pdf.png" alt="PDF document" title="dummy_file1.pdf"><a href="http://nohost/plone/folder01/converted-archives-2/dummy_image3.jpg/view/++widget++form.widgets.arkistoitava_tiedosto/@@download/dummy_file1.pdf">dummy_file1.pdf</a>
+    <img src="http://nohost/plone/pdf.png" alt="PDF document" title="dummy_file1.pdf"><a href="http://nohost/plone/folder01/folder01-converted/dummy_image3.jpg/view/++widget++form.widgets.arkistoitava_tiedosto/@@download/dummy_file1.pdf">dummy_file1.pdf</a>
     <span class="discreet"> &#8212;
     PDF document,
     0 KB
@@ -510,7 +694,7 @@ Image::
     >>> print browser.bycss('#form-widgets-image')
     --- 1 ---
     <span id="form-widgets-image" class="named-image-widget namedblobimage-field">
-    <img src="http://nohost/plone/folder01/converted-archives-2/dummy_image3.jpg/view/++widget++form.widgets.image/@@download/dummy_image3.jpg" width="-1" height="-1"></span>
+    <img src="http://nohost/plone/folder01/folder01-converted/dummy_image3.jpg/view/++widget++form.widgets.image/@@download/dummy_image3.jpg" width="-1" height="-1"></span>
 
     >>> print browser.bycss('#form-widgets-paivays')
     --- 1 ---
@@ -530,10 +714,10 @@ Image::
 
 File::
 
-    >>> browser.getLink('Converted Archives 2').click()
-    >>> browser.getLink('File', index=1).click()
+    >>> browser.getLink('Folder Converted').click()
+    >>> browser.getLink('File', index=2).click()
     >>> browser.url
-    'http://nohost/plone/folder01/converted-archives-2/file'
+    'http://nohost/plone/folder01/folder01-converted/file'
 
     >>> print browser.bycss('.documentFirstHeading')
     --- 1 ---
@@ -551,7 +735,7 @@ File::
     --- 1 ---
     <span id="form-widgets-arkistoitava_tiedosto" class="named-file-widget namedblobfile-field">
     <span>
-    <img src="http://nohost/plone/pdf.png" alt="PDF document" title="dummy_file1.pdf"><a href="http://nohost/plone/folder01/converted-archives-2/file/view/++widget++form.widgets.arkistoitava_tiedosto/@@download/dummy_file1.pdf">dummy_file1.pdf</a>
+    <img src="http://nohost/plone/pdf.png" alt="PDF document" title="dummy_file1.pdf"><a href="http://nohost/plone/folder01/folder01-converted/file/view/++widget++form.widgets.arkistoitava_tiedosto/@@download/dummy_file1.pdf">dummy_file1.pdf</a>
     <span class="discreet"> &#8212;
     PDF document,
     1 KB
@@ -562,7 +746,7 @@ File::
     >>> print browser.bycss('#form-widgets-image')
     --- 1 ---
     <span id="form-widgets-image" class="named-image-widget namedblobimage-field">
-    <img src="http://nohost/plone/folder01/converted-archives-2/file/view/++widget++form.widgets.image/@@download/dummy_image4.jpg" width="-1" height="-1"></span>
+    <img src="http://nohost/plone/folder01/folder01-converted/file/view/++widget++form.widgets.image/@@download/dummy_image4.jpg" width="-1" height="-1"></span>
 
     >>> print browser.bycss('#form-widgets-paivays')
     --- 1 ---
