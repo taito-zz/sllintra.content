@@ -8,7 +8,7 @@ sllintra.content
 Changelog
 ---------
 
-0.5 (2015-08-xx)
+0.5 (2015-08-14)
 ================
 
 - Change folder ID and title to use parent folder ID and title. [taito]
