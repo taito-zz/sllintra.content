@@ -8,6 +8,11 @@ sllintra.content
 Changelog
 ---------
 
+0.6.1 (2015-08-19)
+==================
+
+- Fix path for absolute link. [taito]
+
 0.6 (2015-08-19)
 ================
 

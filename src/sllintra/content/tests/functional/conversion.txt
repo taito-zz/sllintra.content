@@ -358,7 +358,7 @@ Check the checkboxes::
 
     >>> print browser.bycss('#form-widgets-text')
     --- 1 ---
-    <div id="form-widgets-text" class="richTextWidget richtext-field"><p>B&#246;dy of D&#246;cument</p><a href="http://www.sll.fi/aaa/bbb">&#196;&#196;&#196;</a><a href="http://aaa.bb/ccc/ddd">&#197;&#197;&#197;</a></div>
+    <div id="form-widgets-text" class="richTextWidget richtext-field"><p>B&#246;dy of D&#246;cument</p><a href="http://www.sll.fi/folder01/aaa/bbb">&#196;&#196;&#196;</a><a href="http://aaa.bb/ccc/ddd">&#197;&#197;&#197;</a></div>
 
     >>> print browser.bycss('#form-widgets-aihepiiri')
     --- 1 ---

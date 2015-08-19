@@ -24,19 +24,11 @@ paths_field = Text(__name__='paths', title=_(u'Paths'), readonly=True)
 
 
 def link_repl_func(link):
-    convert_url = getSite().restrictedTraverse('plone_context_state').current_base_url()
-    base_url = '/'.join(convert_url.split('/')[:-1])
-    if link.startswith(base_url):
-        return 'http://www.sll.fi/{}'.format(link[len(base_url) + 1:])
+    portal_url = getSite().absolute_url()
+    if link.startswith(portal_url):
+        return 'http://www.sll.fi/{}'.format(link[len(portal_url) + 1:])
     else:
         return link
-
-
-def strip_dev(html):
-    if html.startswith(u'<div>') and html.endswith(u'</div>'):
-        return html[5:-6]
-    else:
-        return html
 
 
 class ConvertForm(AddArchiveForm):
@@ -79,6 +71,12 @@ class ConvertForm(AddArchiveForm):
             return self.request.response.redirect(url)
         self.fields += Fields(paths_field)
         return super(ConvertForm, self).update()
+
+    def _strip_dev(self, html):
+        if html.startswith(u'<div>') and html.endswith(u'</div>'):
+            return html[5:-6]
+        else:
+            return html
 
     @button.buttonAndHandler(_(u'Convert'), name='convert')
     def handleAdd(self, action):
@@ -170,7 +168,7 @@ class ConvertForm(AddArchiveForm):
                 paivays = paivays.asdatetime().replace(tzinfo=None)
             data['paivays'] = paivays
             if obj.getField('text') is not None:
-                text = strip_dev(rewrite_links(safe_unicode(obj.getField('text').get(obj)), link_repl_func)) or text
+                text = self._strip_dev(rewrite_links(safe_unicode(obj.getField('text').get(obj)), link_repl_func)) or text
             if text:
                 data['text'] = text
 
