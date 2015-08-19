@@ -179,7 +179,7 @@ Add Document to folder::
     >>> browser.open('/folder01/createObject?type_name=Document')
     >>> browser.getControl(name="title").value = 'Döcument'
     >>> browser.getControl(name="description").value = 'Description of Döcument'
-    >>> browser.getControl(name="text").value = '<p>Bödy of Döcument</p>'
+    >>> browser.getControl(name="text").value = '<p>Bödy of Döcument</p><a href="aaa/bbb">ÄÄÄ</a><a href="http://aaa.bb/ccc/ddd">ÅÅÅ</a>'
     >>> browser.getControl(name="effectiveDate_year").value = ['2013']
     >>> browser.getControl(name="effectiveDate_month").value = ['05']
     >>> browser.getControl(name="effectiveDate_day").value = ['24']
@@ -358,7 +358,7 @@ Check the checkboxes::
 
     >>> print browser.bycss('#form-widgets-text')
     --- 1 ---
-    <div id="form-widgets-text" class="richTextWidget richtext-field"><p>B&#246;dy of D&#246;cument</p></div>
+    <div id="form-widgets-text" class="richTextWidget richtext-field"><p>B&#246;dy of D&#246;cument</p><a href="http://www.sll.fi/aaa/bbb">&#196;&#196;&#196;</a><a href="http://aaa.bb/ccc/ddd">&#197;&#197;&#197;</a></div>
 
     >>> print browser.bycss('#form-widgets-aihepiiri')
     --- 1 ---

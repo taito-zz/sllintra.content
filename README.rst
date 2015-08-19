@@ -8,6 +8,11 @@ sllintra.content
 Changelog
 ---------
 
+0.6 (2015-08-19)
+================
+
+- Convert also relative link to absolute link. [taito]
+
 0.5 (2015-08-14)
 ================
 

@@ -3,6 +3,7 @@ from Products.CMFPlone.utils import safe_unicode
 from Products.statusmessages.interfaces import IStatusMessage
 from collective.base.interfaces import IAdapter
 from datetime import datetime
+from lxml.html import rewrite_links
 from plone.dexterity.utils import createContentInContainer
 from plone.namedfile.file import NamedBlobFile
 from plone.namedfile.file import NamedBlobImage
@@ -16,9 +17,26 @@ from z3c.form.interfaces import HIDDEN_MODE
 from zope.interface import alsoProvides
 from zope.lifecycleevent import modified
 from zope.schema import Text
+from zope.site.hooks import getSite
 
 
 paths_field = Text(__name__='paths', title=_(u'Paths'), readonly=True)
+
+
+def link_repl_func(link):
+    convert_url = getSite().restrictedTraverse('plone_context_state').current_base_url()
+    base_url = '/'.join(convert_url.split('/')[:-1])
+    if link.startswith(base_url):
+        return 'http://www.sll.fi/{}'.format(link[len(base_url) + 1:])
+    else:
+        return link
+
+
+def strip_dev(html):
+    if html.startswith(u'<div>') and html.endswith(u'</div>'):
+        return html[5:-6]
+    else:
+        return html
 
 
 class ConvertForm(AddArchiveForm):
@@ -152,7 +170,7 @@ class ConvertForm(AddArchiveForm):
                 paivays = paivays.asdatetime().replace(tzinfo=None)
             data['paivays'] = paivays
             if obj.getField('text') is not None:
-                text = safe_unicode(obj.getField('text').get(obj)) or text
+                text = strip_dev(rewrite_links(safe_unicode(obj.getField('text').get(obj)), link_repl_func)) or text
             if text:
                 data['text'] = text
 
