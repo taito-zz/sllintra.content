@@ -6,6 +6,7 @@ from plone.dexterity.i18n import MessageFactory as DMF
 from plone.dexterity.interfaces import IDexterityEditForm
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import addContentToContainer
+from plone.memoize import instance
 from plone.namedfile.field import NamedBlobFile
 from plone.namedfile.field import NamedBlobImage
 from plone.z3cform import layout
@@ -17,7 +18,6 @@ from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
 from zope.interface import alsoProvides
 from zope.interface import classImplements
-from plone.memoize import instance
 
 
 def update_widget(instance):
@@ -29,6 +29,17 @@ def update_widget(instance):
         for name in fields:
             if fields[name] == u'radio' and instance.fields.get(name) is not None:
                 instance.fields[name].widgetFactory = CheckBoxFieldWidget
+
+
+def clear_widget_description(instance):
+    for name in instance.widgets:
+        widget = instance.widgets[name]
+        field = widget.field
+        if hasattr(field, 'original_description'):
+            field.description = field.original_description
+        if hasattr(field, 'original_required'):
+            widget.required = field.required = field.original_required
+    instance.widgets.update()
 
 
 class AddArchiveForm(add.DefaultAddForm):
@@ -105,6 +116,7 @@ class AddArchiveForm(add.DefaultAddForm):
     def updateWidgets(self):
         update_widget(self)
         super(AddArchiveForm, self).updateWidgets()
+        clear_widget_description(self)
 
 
 class AddArchiveView(add.DefaultAddView):
@@ -118,7 +130,7 @@ class EditArchiveForm(edit.DefaultEditForm):
     def updateWidgets(self):
         update_widget(self)
         super(EditArchiveForm, self).updateWidgets()
-
+        clear_widget_description(self)
 
 EditArchiveView = layout.wrap_form(EditArchiveForm)
 classImplements(EditArchiveView, IDexterityEditForm)

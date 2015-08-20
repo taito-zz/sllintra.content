@@ -88,6 +88,11 @@ Add asiakirjan_luonne::
 Add Archive::
 
     >>> browser.open('/++add++archive')
+    >>> print browser.bycss('.formHelp')
+    --- 1 ---
+    <span class="formHelp">Used in item listings and search results.</span>
+    --- 2 ---
+    <span class="formHelp">Enter a comment that describes the changes you made.</span>
 
     >>> print browser.bycss("#form-widgets-aihepiiri")
     --- 1 ---
@@ -119,6 +124,22 @@ Add Archive::
     </span>
     </span>
 
+    >>> print browser.bycss('#form-widgets-paths')
+
+    >>> print browser.bycss("#formfield-form-widgets-arkistoitava_tiedosto")
+    --- 1 ---
+    <div data-fieldname="form.widgets.arkistoitava_tiedosto" ...>
+    <label for="form-widgets-arkistoitava_tiedosto" class="horizontal">
+    Arkistoitava tiedosto
+    <span class="required horizontal" title="Required">&#160;</span>
+    </label>
+    ...
+    </div>
+
+    >>> print browser.bycss("#form-widgets-IVersionable-changeNote")
+    --- 1 ---
+    <input id="form-widgets-IVersionable-changeNote" ... type="text">
+
     >>> browser.getControl(name="form.widgets.IBasic.title").value = 'Ärchive'
     >>> browser.getControl(name="form.widgets.IBasic.description").value = 'Description of Ärchive.'
     >>> import StringIO
@@ -139,6 +160,11 @@ Add Archive::
 Check the edit form::
 
     >>> browser.getLink('Edit').click()
+    >>> print browser.bycss('.formHelp')
+    --- 1 ---
+    <span class="formHelp">Used in item listings and search results.</span>
+    --- 2 ---
+    <span class="formHelp">Enter a comment that describes the changes you made.</span>
 
     >>> print browser.bycss("#form-widgets-aihepiiri")
     --- 1 ---
@@ -169,6 +195,30 @@ Check the edit form::
     </label>
     </span>
     </span>
+
+    >>> print browser.bycss('#form-widgets-paths')
+
+    >>> print browser.bycss("#formfield-form-widgets-arkistoitava_tiedosto")
+    --- 1 ---
+    <div data-fieldname="form.widgets.arkistoitava_tiedosto" class="field z3cformInlineValidation kssattr-fieldname-form.widgets.arkistoitava_tiedosto" id="formfield-form-widgets-arkistoitava_tiedosto">
+    <label for="form-widgets-arkistoitava_tiedosto" class="horizontal">
+    Arkistoitava tiedosto
+    <span class="required horizontal" title="Required">&#160;</span>
+    </label>
+    <div class="fieldErrorBox"></div>
+    <span class="named-file-widget required namedblobfile-field" id="form-widgets-arkistoitava_tiedosto">
+    <span>
+    <img src="http://nohost/plone/pdf.png" alt="PDF document" title="dummy_file1.pdf"><a href="http://nohost/plone/archive/@@edit/++widget++form.widgets.arkistoitava_tiedosto/@@download/dummy_file1.pdf">dummy_file1.pdf</a>
+    <span class="discreet"> &#8212;
+    PDF document,
+    1 KB
+    </span>
+    ...
+    </div>
+
+    >>> print browser.bycss("#form-widgets-IVersionable-changeNote")
+    --- 1 ---
+    <input id="form-widgets-IVersionable-changeNote" ... type="text">
 
 Check Folder::
 
@@ -268,6 +318,151 @@ Convert Döcument::
     <span class="formHelp">This value will be the default value for the newly converted archive content.</span>
     --- 8 ---
     <span class="formHelp">This value will be the default value for the newly converted archive content.</span>
+    >>> print browser.bycss("#formfield-form-widgets-arkistoitava_tiedosto")
+    --- 1 ---
+    <div data-fieldname="form.widgets.arkistoitava_tiedosto" class="field z3cformInlineValidation kssattr-fieldname-form.widgets.arkistoitava_tiedosto empty" id="formfield-form-widgets-arkistoitava_tiedosto">
+    <label for="form-widgets-arkistoitava_tiedosto" class="horizontal">
+    Arkistoitava tiedosto
+    <span class="formHelp">This file will be attached for the newly converted archive content if the file is not set in the original content.</span>
+    </label>
+    <div class="fieldErrorBox"></div>
+    <span class="named-file-widget required namedblobfile-field" id="form-widgets-arkistoitava_tiedosto">
+    <input type="file" id="form-widgets-arkistoitava_tiedosto-input" name="form.widgets.arkistoitava_tiedosto"></span>
+    </div>
+
+Check add view of archive::
+
+    >>> browser.open('/++add++archive')
+    >>> print browser.bycss('.formHelp')
+    --- 1 ---
+    <span class="formHelp">Used in item listings and search results.</span>
+    --- 2 ---
+    <span class="formHelp">Enter a comment that describes the changes you made.</span>
+
+    >>> print browser.bycss('#form-widgets-paths')
+
+    >>> print browser.bycss("#formfield-form-widgets-arkistoitava_tiedosto")
+    --- 1 ---
+    <div data-fieldname="form.widgets.arkistoitava_tiedosto" class="field z3cformInlineValidation kssattr-fieldname-form.widgets.arkistoitava_tiedosto empty" id="formfield-form-widgets-arkistoitava_tiedosto">
+    <label for="form-widgets-arkistoitava_tiedosto" class="horizontal">
+    Arkistoitava tiedosto
+    <span class="required horizontal" title="Required">&#160;</span>
+    </label>
+    <div class="fieldErrorBox"></div>
+    <span class="named-file-widget namedblobfile-field required" id="form-widgets-arkistoitava_tiedosto">
+    <input type="file" id="form-widgets-arkistoitava_tiedosto-input" name="form.widgets.arkistoitava_tiedosto"></span>
+    </div>
+
+    >>> print browser.bycss("#form-widgets-IVersionable-changeNote")
+    --- 1 ---
+    <input id="form-widgets-IVersionable-changeNote" ... type="text">
+
+Check edit view of archive::
+
+    >>> browser.open('/folder01/folder_contents')
+    >>> browser.getControl(name="paths:list").value = ['/plone/folder01/document', ]
+    >>> browser.getControl("Convert").click()
+    >>> print browser.bycss('#form-widgets-paths')
+    --- 1 ---
+    <input id="form-widgets-paths" name="form.widgets.paths" value="/plone/folder01/document" class="hidden-widget" type="hidden">
+    >>> print browser.bycss('#form-widgets-IVersionable-changeNote')
+    --- 1 ---
+    <input id="form-widgets-IVersionable-changeNote" name="form.widgets.IVersionable.changeNote" value="" class="hidden-widget" type="hidden">
+    >>> print browser.bycss('.formHelp')
+    --- 1 ---
+    <span class="formHelp">This value will be used for the newly converted archive content if the title is not set in the original content.</span>
+    --- 2 ---
+    <span class="formHelp">This value will be used for the newly converted archive content if the description is not set in the original content.</span>
+    --- 3 ---
+    <span class="formHelp">This file will be attached for the newly converted archive content if the file is not set in the original content.</span>
+    --- 4 ---
+    <span class="formHelp">This image will be attached for the newly converted archive content if the image is not set in the original content.</span>
+    --- 5 ---
+    <span class="formHelp">This value will be used for the newly converted archive content if the effective date is not set in the original content. If this value is empty and the effective date is not set, the creation date will be used for the new content.</span>
+    --- 6 ---
+    <span class="formHelp">This value will be used for the newly converted archive content if the text is not set in the original content.</span>
+    --- 7 ---
+    <span class="formHelp">This value will be the default value for the newly converted archive content.</span>
+    --- 8 ---
+    <span class="formHelp">This value will be the default value for the newly converted archive content.</span>
+    >>> print browser.bycss("#formfield-form-widgets-arkistoitava_tiedosto")
+    --- 1 ---
+    <div data-fieldname="form.widgets.arkistoitava_tiedosto" class="field z3cformInlineValidation kssattr-fieldname-form.widgets.arkistoitava_tiedosto empty" id="formfield-form-widgets-arkistoitava_tiedosto">
+    <label for="form-widgets-arkistoitava_tiedosto" class="horizontal">
+    Arkistoitava tiedosto
+    <span class="formHelp">This file will be attached for the newly converted archive content if the file is not set in the original content.</span>
+    </label>
+    <div class="fieldErrorBox"></div>
+    <span class="named-file-widget required namedblobfile-field" id="form-widgets-arkistoitava_tiedosto">
+    <input type="file" id="form-widgets-arkistoitava_tiedosto-input" name="form.widgets.arkistoitava_tiedosto"></span>
+    </div>
+
+    >>> browser.open('/archive/edit')
+    >>> print browser.bycss('.formHelp')
+    --- 1 ---
+    <span class="formHelp">Used in item listings and search results.</span>
+    --- 2 ---
+    <span class="formHelp">Enter a comment that describes the changes you made.</span>
+
+    >>> print browser.bycss('#form-widgets-paths')
+
+    >>> print browser.bycss("#formfield-form-widgets-arkistoitava_tiedosto")
+    --- 1 ---
+    <div data-fieldname="form.widgets.arkistoitava_tiedosto" class="field z3cformInlineValidation kssattr-fieldname-form.widgets.arkistoitava_tiedosto" id="formfield-form-widgets-arkistoitava_tiedosto">
+    <label for="form-widgets-arkistoitava_tiedosto" class="horizontal">
+    Arkistoitava tiedosto
+    <span class="required horizontal" title="Required">&#160;</span>
+    </label>
+    <div class="fieldErrorBox"></div>
+    <span class="named-file-widget namedblobfile-field required" id="form-widgets-arkistoitava_tiedosto">
+    <span>
+    <img src="http://nohost/plone/pdf.png" alt="PDF document" title="dummy_file1.pdf"><a href="http://nohost/plone/archive/@@edit/++widget++form.widgets.arkistoitava_tiedosto/@@download/dummy_file1.pdf">dummy_file1.pdf</a>
+    <span class="discreet"> &#8212;
+    PDF document,
+    1 KB
+    </span>
+    ...
+    </div>
+
+    >>> print browser.bycss("#form-widgets-IVersionable-changeNote")
+    --- 1 ---
+    <input id="form-widgets-IVersionable-changeNote" ... type="text">
+
+Check the checkboxes::
+
+    >>> print browser.bycss("#form-widgets-aihepiiri")
+    --- 1 ---
+    <span id="form-widgets-aihepiiri">
+    <span class="option">
+    <input id="form-widgets-aihepiiri-0" name="form.widgets.aihepiiri:list" class="checkbox-widget set-field" value="Mets\xe4t" type="checkbox"><label for="form-widgets-aihepiiri-0">
+    <span class="label">Mets&#228;t</span>
+    </label>
+    </span>
+    <span class="option">
+    <input type="checkbox" id="form-widgets-aihepiiri-1" name="form.widgets.aihepiiri:list" class="checkbox-widget set-field" value="Suot" checked><label for="form-widgets-aihepiiri-1">
+    <span class="label">Suot</span>
+    </label>
+    </span>
+    <span class="option">
+    <input type="checkbox" id="form-widgets-aihepiiri-2" name="form.widgets.aihepiiri:list" class="checkbox-widget set-field" value="Vedet" checked><label for="form-widgets-aihepiiri-2">
+    <span class="label">Vedet</span>
+    </label>
+    </span>
+    <span class="option">
+    <input id="form-widgets-aihepiiri-3" name="form.widgets.aihepiiri:list" class="checkbox-widget set-field" value="Lajit" type="checkbox"><label for="form-widgets-aihepiiri-3">
+    <span class="label">Lajit</span>
+    </label>
+    </span>
+    <span class="option">
+    <input id="form-widgets-aihepiiri-4" name="form.widgets.aihepiiri:list" class="checkbox-widget set-field" value="Maank\xe4ytt\xf6" type="checkbox"><label for="form-widgets-aihepiiri-4">
+    <span class="label">Maank&#228;ytt&#246;</span>
+    </label>
+    </span>
+    </span>
+
+    >>> browser.open('/folder01/folder_contents')
+    >>> browser.getControl(name="paths:list").value = ['/plone/folder01/document', ]
+    >>> browser.getControl("Convert").click()
 
 Check the checkboxes::
 

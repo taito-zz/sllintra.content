@@ -8,6 +8,11 @@ sllintra.content
 Changelog
 ---------
 
+0.6.2 (2015-08-21)
+==================
+
+- Fix widgets for add and edit view. [taito]
+
 0.6.1 (2015-08-19)
 ==================
 
