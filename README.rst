@@ -8,6 +8,11 @@ sllintra.content
 Changelog
 ---------
 
+0.7 (2015-08-21)
+================
+
+- Remove help message from convert page. [taito]
+
 0.6.2 (2015-08-21)
 ==================
 

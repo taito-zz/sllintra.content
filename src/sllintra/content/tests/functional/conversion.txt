@@ -29,11 +29,14 @@ Add file upload::
 
     >>> browser.getControl("Add new field…").click()
     >>> browser.getControl(name="form.widgets.title").value = 'Arkistoitava tiedosto'
+    >>> browser.getControl(name="form.widgets.description").value = 'Tiedosto tulee tähän.'
     >>> browser.getControl(name="form.widgets.__name__").value = 'arkistoitava_tiedosto'
     >>> browser.getControl(name="form.widgets.factory:list").value = ['File Upload']
     >>> browser.getControl(name="form.buttons.add").click()
     >>> browser.open('/dexterity-types/archive/arkistoitava_tiedosto')
-    >>> browser.getControl(name="form.widgets.required:list").value = [True]
+
+    # >>> browser.getControl(name="form.widgets.required:list").value = [True]
+
     >>> browser.getControl(name="form.buttons.save").click()
 
 Add image::
@@ -85,6 +88,18 @@ Add asiakirjan_luonne::
     >>> browser.getControl(name="form.widgets.values").value = 'Tiedote\nLausunto\nValitus\nVastaselitys\nPöytäkirja'
     >>> browser.getControl(name="form.buttons.save").click()
 
+    >>> print browser.bycss('#formfield-form-widgets-arkistoitava_tiedosto')
+    --- 1 ---
+    <div data-fieldname="form.widgets.arkistoitava_tiedosto" class="field z3cformInlineValidation kssattr-fieldname-form.widgets.arkistoitava_tiedosto empty" id="formfield-form-widgets-arkistoitava_tiedosto">
+    <label for="form-widgets-arkistoitava_tiedosto" class="horizontal">
+    Arkistoitava tiedosto
+    <span class="formHelp">Tiedosto tulee t&#228;h&#228;n.</span>
+    </label>
+    <div class="fieldErrorBox"></div>
+    <span class="named-file-widget namedblobfile-field" id="form-widgets-arkistoitava_tiedosto">
+    <input type="file" id="form-widgets-arkistoitava_tiedosto-input" name="form.widgets.arkistoitava_tiedosto"></span>
+    </div>
+
 Add Archive::
 
     >>> browser.open('/++add++archive')
@@ -92,6 +107,8 @@ Add Archive::
     --- 1 ---
     <span class="formHelp">Used in item listings and search results.</span>
     --- 2 ---
+    <span class="formHelp">Tiedosto tulee t&#228;h&#228;n.</span>
+    --- 3 ---
     <span class="formHelp">Enter a comment that describes the changes you made.</span>
 
     >>> print browser.bycss("#form-widgets-aihepiiri")
@@ -128,12 +145,14 @@ Add Archive::
 
     >>> print browser.bycss("#formfield-form-widgets-arkistoitava_tiedosto")
     --- 1 ---
-    <div data-fieldname="form.widgets.arkistoitava_tiedosto" ...>
+    <div data-fieldname="form.widgets.arkistoitava_tiedosto" class="field z3cformInlineValidation kssattr-fieldname-form.widgets.arkistoitava_tiedosto empty" id="formfield-form-widgets-arkistoitava_tiedosto">
     <label for="form-widgets-arkistoitava_tiedosto" class="horizontal">
     Arkistoitava tiedosto
-    <span class="required horizontal" title="Required">&#160;</span>
+    <span class="formHelp">Tiedosto tulee t&#228;h&#228;n.</span>
     </label>
-    ...
+    <div class="fieldErrorBox"></div>
+    <span class="named-file-widget namedblobfile-field" id="form-widgets-arkistoitava_tiedosto">
+    <input type="file" id="form-widgets-arkistoitava_tiedosto-input" name="form.widgets.arkistoitava_tiedosto"></span>
     </div>
 
     >>> print browser.bycss("#form-widgets-IVersionable-changeNote")
@@ -157,13 +176,30 @@ Add Archive::
     >>> browser.url
     'http://nohost/plone/archive/view'
 
+Check archive field::
+
+    >>> browser.open('/dexterity-types/archive/@@fields')
+    >>> print browser.bycss('#formfield-form-widgets-arkistoitava_tiedosto')
+    --- 1 ---
+    <div data-fieldname="form.widgets.arkistoitava_tiedosto" class="field z3cformInlineValidation kssattr-fieldname-form.widgets.arkistoitava_tiedosto empty" id="formfield-form-widgets-arkistoitava_tiedosto">
+    <label for="form-widgets-arkistoitava_tiedosto" class="horizontal">
+    Arkistoitava tiedosto
+    <span class="formHelp">Tiedosto tulee t&#228;h&#228;n.</span>
+    </label>
+    <div class="fieldErrorBox"></div>
+    <span class="named-file-widget namedblobfile-field" id="form-widgets-arkistoitava_tiedosto">
+    <input type="file" id="form-widgets-arkistoitava_tiedosto-input" name="form.widgets.arkistoitava_tiedosto"></span>
+    </div>
+
 Check the edit form::
 
-    >>> browser.getLink('Edit').click()
+    >>> browser.open('/archive/edit')
     >>> print browser.bycss('.formHelp')
     --- 1 ---
     <span class="formHelp">Used in item listings and search results.</span>
     --- 2 ---
+    <span class="formHelp">Tiedosto tulee t&#228;h&#228;n.</span>
+    --- 3 ---
     <span class="formHelp">Enter a comment that describes the changes you made.</span>
 
     >>> print browser.bycss("#form-widgets-aihepiiri")
@@ -203,22 +239,34 @@ Check the edit form::
     <div data-fieldname="form.widgets.arkistoitava_tiedosto" class="field z3cformInlineValidation kssattr-fieldname-form.widgets.arkistoitava_tiedosto" id="formfield-form-widgets-arkistoitava_tiedosto">
     <label for="form-widgets-arkistoitava_tiedosto" class="horizontal">
     Arkistoitava tiedosto
-    <span class="required horizontal" title="Required">&#160;</span>
+    <span class="formHelp">Tiedosto tulee t&#228;h&#228;n.</span>
     </label>
     <div class="fieldErrorBox"></div>
-    <span class="named-file-widget required namedblobfile-field" id="form-widgets-arkistoitava_tiedosto">
+    <span class="named-file-widget namedblobfile-field" id="form-widgets-arkistoitava_tiedosto">
     <span>
     <img src="http://nohost/plone/pdf.png" alt="PDF document" title="dummy_file1.pdf"><a href="http://nohost/plone/archive/@@edit/++widget++form.widgets.arkistoitava_tiedosto/@@download/dummy_file1.pdf">dummy_file1.pdf</a>
-    <span class="discreet"> &#8212;
-    PDF document,
-    1 KB
-    </span>
     ...
     </div>
+
 
     >>> print browser.bycss("#form-widgets-IVersionable-changeNote")
     --- 1 ---
     <input id="form-widgets-IVersionable-changeNote" ... type="text">
+
+Check archive field::
+
+    >>> browser.open('/dexterity-types/archive/@@fields')
+    >>> print browser.bycss('#formfield-form-widgets-arkistoitava_tiedosto')
+    --- 1 ---
+    <div data-fieldname="form.widgets.arkistoitava_tiedosto" class="field z3cformInlineValidation kssattr-fieldname-form.widgets.arkistoitava_tiedosto empty" id="formfield-form-widgets-arkistoitava_tiedosto">
+    <label for="form-widgets-arkistoitava_tiedosto" class="horizontal">
+    Arkistoitava tiedosto
+    <span class="formHelp">Tiedosto tulee t&#228;h&#228;n.</span>
+    </label>
+    <div class="fieldErrorBox"></div>
+    <span class="named-file-widget namedblobfile-field" id="form-widgets-arkistoitava_tiedosto">
+    <input type="file" id="form-widgets-arkistoitava_tiedosto-input" name="form.widgets.arkistoitava_tiedosto"></span>
+    </div>
 
 Check Folder::
 
@@ -303,30 +351,34 @@ Convert Döcument::
     <input id="form-widgets-IVersionable-changeNote" name="form.widgets.IVersionable.changeNote" value="" class="hidden-widget" type="hidden">
     >>> print browser.bycss('.formHelp')
     --- 1 ---
-    <span class="formHelp">This value will be used for the newly converted archive content if the title is not set in the original content.</span>
+    <span class="formHelp">Used in item listings and search results.</span>
     --- 2 ---
-    <span class="formHelp">This value will be used for the newly converted archive content if the description is not set in the original content.</span>
-    --- 3 ---
-    <span class="formHelp">This file will be attached for the newly converted archive content if the file is not set in the original content.</span>
-    --- 4 ---
-    <span class="formHelp">This image will be attached for the newly converted archive content if the image is not set in the original content.</span>
-    --- 5 ---
-    <span class="formHelp">This value will be used for the newly converted archive content if the effective date is not set in the original content. If this value is empty and the effective date is not set, the creation date will be used for the new content.</span>
-    --- 6 ---
-    <span class="formHelp">This value will be used for the newly converted archive content if the text is not set in the original content.</span>
-    --- 7 ---
-    <span class="formHelp">This value will be the default value for the newly converted archive content.</span>
-    --- 8 ---
-    <span class="formHelp">This value will be the default value for the newly converted archive content.</span>
+    <span class="formHelp">Tiedosto tulee t&#228;h&#228;n.</span>
+
     >>> print browser.bycss("#formfield-form-widgets-arkistoitava_tiedosto")
     --- 1 ---
     <div data-fieldname="form.widgets.arkistoitava_tiedosto" class="field z3cformInlineValidation kssattr-fieldname-form.widgets.arkistoitava_tiedosto empty" id="formfield-form-widgets-arkistoitava_tiedosto">
     <label for="form-widgets-arkistoitava_tiedosto" class="horizontal">
     Arkistoitava tiedosto
-    <span class="formHelp">This file will be attached for the newly converted archive content if the file is not set in the original content.</span>
+    <span class="formHelp">Tiedosto tulee t&#228;h&#228;n.</span>
     </label>
     <div class="fieldErrorBox"></div>
-    <span class="named-file-widget required namedblobfile-field" id="form-widgets-arkistoitava_tiedosto">
+    <span class="named-file-widget namedblobfile-field" id="form-widgets-arkistoitava_tiedosto">
+    <input type="file" id="form-widgets-arkistoitava_tiedosto-input" name="form.widgets.arkistoitava_tiedosto"></span>
+    </div>
+
+Check archive field::
+
+    >>> browser.open('/dexterity-types/archive/@@fields')
+    >>> print browser.bycss('#formfield-form-widgets-arkistoitava_tiedosto')
+    --- 1 ---
+    <div data-fieldname="form.widgets.arkistoitava_tiedosto" class="field z3cformInlineValidation kssattr-fieldname-form.widgets.arkistoitava_tiedosto empty" id="formfield-form-widgets-arkistoitava_tiedosto">
+    <label for="form-widgets-arkistoitava_tiedosto" class="horizontal">
+    Arkistoitava tiedosto
+    <span class="formHelp">Tiedosto tulee t&#228;h&#228;n.</span>
+    </label>
+    <div class="fieldErrorBox"></div>
+    <span class="named-file-widget namedblobfile-field" id="form-widgets-arkistoitava_tiedosto">
     <input type="file" id="form-widgets-arkistoitava_tiedosto-input" name="form.widgets.arkistoitava_tiedosto"></span>
     </div>
 
@@ -337,6 +389,8 @@ Check add view of archive::
     --- 1 ---
     <span class="formHelp">Used in item listings and search results.</span>
     --- 2 ---
+    <span class="formHelp">Tiedosto tulee t&#228;h&#228;n.</span>
+    --- 3 ---
     <span class="formHelp">Enter a comment that describes the changes you made.</span>
 
     >>> print browser.bycss('#form-widgets-paths')
@@ -346,10 +400,10 @@ Check add view of archive::
     <div data-fieldname="form.widgets.arkistoitava_tiedosto" class="field z3cformInlineValidation kssattr-fieldname-form.widgets.arkistoitava_tiedosto empty" id="formfield-form-widgets-arkistoitava_tiedosto">
     <label for="form-widgets-arkistoitava_tiedosto" class="horizontal">
     Arkistoitava tiedosto
-    <span class="required horizontal" title="Required">&#160;</span>
+    <span class="formHelp">Tiedosto tulee t&#228;h&#228;n.</span>
     </label>
     <div class="fieldErrorBox"></div>
-    <span class="named-file-widget namedblobfile-field required" id="form-widgets-arkistoitava_tiedosto">
+    <span class="named-file-widget namedblobfile-field" id="form-widgets-arkistoitava_tiedosto">
     <input type="file" id="form-widgets-arkistoitava_tiedosto-input" name="form.widgets.arkistoitava_tiedosto"></span>
     </div>
 
@@ -370,30 +424,19 @@ Check edit view of archive::
     <input id="form-widgets-IVersionable-changeNote" name="form.widgets.IVersionable.changeNote" value="" class="hidden-widget" type="hidden">
     >>> print browser.bycss('.formHelp')
     --- 1 ---
-    <span class="formHelp">This value will be used for the newly converted archive content if the title is not set in the original content.</span>
+    <span class="formHelp">Used in item listings and search results.</span>
     --- 2 ---
-    <span class="formHelp">This value will be used for the newly converted archive content if the description is not set in the original content.</span>
-    --- 3 ---
-    <span class="formHelp">This file will be attached for the newly converted archive content if the file is not set in the original content.</span>
-    --- 4 ---
-    <span class="formHelp">This image will be attached for the newly converted archive content if the image is not set in the original content.</span>
-    --- 5 ---
-    <span class="formHelp">This value will be used for the newly converted archive content if the effective date is not set in the original content. If this value is empty and the effective date is not set, the creation date will be used for the new content.</span>
-    --- 6 ---
-    <span class="formHelp">This value will be used for the newly converted archive content if the text is not set in the original content.</span>
-    --- 7 ---
-    <span class="formHelp">This value will be the default value for the newly converted archive content.</span>
-    --- 8 ---
-    <span class="formHelp">This value will be the default value for the newly converted archive content.</span>
+    <span class="formHelp">Tiedosto tulee t&#228;h&#228;n.</span>
+
     >>> print browser.bycss("#formfield-form-widgets-arkistoitava_tiedosto")
     --- 1 ---
     <div data-fieldname="form.widgets.arkistoitava_tiedosto" class="field z3cformInlineValidation kssattr-fieldname-form.widgets.arkistoitava_tiedosto empty" id="formfield-form-widgets-arkistoitava_tiedosto">
     <label for="form-widgets-arkistoitava_tiedosto" class="horizontal">
     Arkistoitava tiedosto
-    <span class="formHelp">This file will be attached for the newly converted archive content if the file is not set in the original content.</span>
+    <span class="formHelp">Tiedosto tulee t&#228;h&#228;n.</span>
     </label>
     <div class="fieldErrorBox"></div>
-    <span class="named-file-widget required namedblobfile-field" id="form-widgets-arkistoitava_tiedosto">
+    <span class="named-file-widget namedblobfile-field" id="form-widgets-arkistoitava_tiedosto">
     <input type="file" id="form-widgets-arkistoitava_tiedosto-input" name="form.widgets.arkistoitava_tiedosto"></span>
     </div>
 
@@ -402,6 +445,8 @@ Check edit view of archive::
     --- 1 ---
     <span class="formHelp">Used in item listings and search results.</span>
     --- 2 ---
+    <span class="formHelp">Tiedosto tulee t&#228;h&#228;n.</span>
+    --- 3 ---
     <span class="formHelp">Enter a comment that describes the changes you made.</span>
 
     >>> print browser.bycss('#form-widgets-paths')
@@ -411,16 +456,13 @@ Check edit view of archive::
     <div data-fieldname="form.widgets.arkistoitava_tiedosto" class="field z3cformInlineValidation kssattr-fieldname-form.widgets.arkistoitava_tiedosto" id="formfield-form-widgets-arkistoitava_tiedosto">
     <label for="form-widgets-arkistoitava_tiedosto" class="horizontal">
     Arkistoitava tiedosto
-    <span class="required horizontal" title="Required">&#160;</span>
+    <span class="formHelp">Tiedosto tulee t&#228;h&#228;n.</span>
     </label>
     <div class="fieldErrorBox"></div>
-    <span class="named-file-widget namedblobfile-field required" id="form-widgets-arkistoitava_tiedosto">
+    <span class="named-file-widget namedblobfile-field" id="form-widgets-arkistoitava_tiedosto">
     <span>
     <img src="http://nohost/plone/pdf.png" alt="PDF document" title="dummy_file1.pdf"><a href="http://nohost/plone/archive/@@edit/++widget++form.widgets.arkistoitava_tiedosto/@@download/dummy_file1.pdf">dummy_file1.pdf</a>
     <span class="discreet"> &#8212;
-    PDF document,
-    1 KB
-    </span>
     ...
     </div>
 

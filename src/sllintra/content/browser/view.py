@@ -19,7 +19,6 @@ from zope.lifecycleevent import modified
 from zope.schema import Text
 from zope.site.hooks import getSite
 
-
 paths_field = Text(__name__='paths', title=_(u'Paths'), readonly=True)
 
 
@@ -43,29 +42,9 @@ class ConvertForm(AddArchiveForm):
             self.widgets['paths'].value = '\n'.join(self.paths)
 
         for name in self.widgets:
-            description = _(u'convert_archive_default_help', default=u'This value will be the default value for the newly converted archive content.')
-            if name == 'IBasic.title':
-                description = _(u'convert_archive_title_help', default=u'This value will be used for the newly converted archive content if the title is not set in the original content.')
-            if name == 'IBasic.description':
-                description = _(u'convert_archive_description_help', default=u'This value will be used for the newly converted archive content if the description is not set in the original content.')
-            if name == self.file_field().getName():
-                description = _(u'convert_archive_file_help', default=u'This file will be attached for the newly converted archive content if the file is not set in the original content.')
-            if name == 'image':
-                description = _(u'convert_archive_image_help', default=u'This image will be attached for the newly converted archive content if the image is not set in the original content.')
-            if name == 'paivays':
-                description = _(u'convert_archive_paivays_help', default=u'This value will be used for the newly converted archive content if the effective date is not set in the original content. If this value is empty and the effective date is not set, the creation date will be used for the new content.')
-            if name == 'text':
-                description = _(u'convert_archive_text_help', default=u'This value will be used for the newly converted archive content if the text is not set in the original content.')
             widget = self.widgets[name]
-            field = widget.field
-            setattr(field, 'original_description', field.description)
-            field.description = description
             if widget.required:
                 widget.required = False
-                if field.required:
-                    setattr(field, 'original_required', field.required)
-                    field.required = False
-        self.widgets.update()
 
         self.widgets['paths'].mode = HIDDEN_MODE
         self.widgets['IVersionable.changeNote'].mode = HIDDEN_MODE
