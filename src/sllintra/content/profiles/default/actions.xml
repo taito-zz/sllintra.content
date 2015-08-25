@@ -8,9 +8,9 @@
    <property name="description" i18n:translate=""></property>
    <property name="url_expr">string:convert:method</property>
    <property name="icon_expr"></property>
-   <property name="available_expr">python: context.restrictedTraverse("plone_interface_info").provides("Products.ATContentTypes.interfaces.IATFolder") and "Folder" in context.getRawImmediatelyAddableTypes()</property>
+   <property name="available_expr">python: context.restrictedTraverse("@@show-convert-button")()</property>
    <property name="permissions">
-    <element value="Add portal content"/>
+    <element value="Manage schemata"/>
    </property>
    <property name="visible">True</property>
   </object>

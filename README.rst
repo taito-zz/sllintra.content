@@ -8,6 +8,11 @@ sllintra.content
 Changelog
 ---------
 
+0.7.1 (2015-08-25)
+==================
+
+- Fix permission related issue for convert button. [taito]
+
 0.7 (2015-08-21)
 ================
 

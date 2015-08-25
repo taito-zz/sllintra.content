@@ -23,8 +23,8 @@ class TestCase(IntegrationTestCase):
             'string:convert:method')
         self.assertEqual(
             action.getProperty('available_expr'),
-            'python: context.restrictedTraverse("plone_interface_info").provides("Products.ATContentTypes.interfaces.IATFolder") and "Folder" in context.getRawImmediatelyAddableTypes()')
-        self.assertEqual(action.getProperty('permissions'), ('Add portal content',))
+            'python: context.restrictedTraverse("@@show-convert-button")()')
+        self.assertEqual(action.getProperty('permissions'), ('Manage schemata',))
         self.assertTrue(action.getProperty('visible'))
 
     def test_browserlayer(self):
@@ -35,7 +35,7 @@ class TestCase(IntegrationTestCase):
     def test_metadata__version(self):
         setup = getToolByName(self.portal, 'portal_setup')
         self.assertEqual(
-            setup.getVersionForProfile('profile-sllintra.content:default'), u'2')
+            setup.getVersionForProfile('profile-sllintra.content:default'), u'3')
 
     def test_metadata__installed__plone_app_dexterity(self):
         installer = getToolByName(self.portal, 'portal_quickinstaller')
