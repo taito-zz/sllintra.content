@@ -34,9 +34,6 @@ Add file upload::
     >>> browser.getControl(name="form.widgets.factory:list").value = ['File Upload']
     >>> browser.getControl(name="form.buttons.add").click()
     >>> browser.open('/dexterity-types/archive/arkistoitava_tiedosto')
-
-    # >>> browser.getControl(name="form.widgets.required:list").value = [True]
-
     >>> browser.getControl(name="form.buttons.save").click()
 
 Add image::
@@ -175,6 +172,16 @@ Add Archive::
     >>> browser.getControl(name="form.buttons.save").click()
     >>> browser.url
     'http://nohost/plone/archive/view'
+
+Check folder_contents for archive::
+
+    >>> browser.open('/archive/folder_contents')
+    >>> print browser.bycss('.discreet')
+    --- 1 ---
+    <p class="discreet">
+    This folder has no visible items. To add content, press the
+    add button, or paste content from another location.
+    </p>
 
 Check archive field::
 

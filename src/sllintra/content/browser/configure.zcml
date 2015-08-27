@@ -33,7 +33,7 @@
   <browser:page
     attribute="show_convert_button"
     class=".miscellaneous.Miscellaneous"
-    for="Products.ATContentTypes.interfaces.IATFolder"
+    for="*"
     layer=".interfaces.ISllintraContentLayer"
     name="show-convert-button"
     permission="plone.schemaeditor.ManageSchemata"

@@ -8,6 +8,11 @@ sllintra.content
 Changelog
 ---------
 
+0.7.2 (2015-08-27)
+==================
+
+- Fix view: @@show-convert-button. [taito]
+
 0.7.1 (2015-08-25)
 ==================
 
