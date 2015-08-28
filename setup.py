@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name='sllintra.content',
-    version='0.7.2',
+    version='0.7.3',
     description="Provides content types for SLL intra site.",
     long_description=open("README.rst").read(),
     classifiers=[
