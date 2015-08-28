@@ -73,7 +73,7 @@ class ConvertForm(AddArchiveForm):
             return
 
         # 1. Find or create folder where selected items will be archived.
-        folder_id = "{}-converted".format(self.context.id)
+        folder_id = "c"
         folder_title = "{} Converted".format(self.context.Title())
         folder = self.context.get(folder_id)
         if folder is None:

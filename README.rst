@@ -8,6 +8,11 @@ sllintra.content
 Changelog
 ---------
 
+0.7.3 (2015-08-28)
+==================
+
+- Change folder id from dynamic to short "c" to make paste work better, cut or copied from the folder. [taito]
+
 0.7.2 (2015-08-27)
 ==================
 
